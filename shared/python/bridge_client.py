@@ -1,5 +1,5 @@
 """
-Stitch — shared Python bridge client base.
+Stitch - shared Python bridge client base.
 
 All Python bridge clients (python-ruby, python-rust, python-go) subclass
 BridgeClientBase rather than duplicating subprocess spawn, reader thread,
@@ -34,7 +34,7 @@ class BridgeClientBase:
     Subclasses must call super().__init__(cmd) and may add typed public methods
     that delegate to self._call(method, params).
 
-    Usage (context manager — preferred):
+    Usage (context manager - preferred):
 
         class MyBridge(BridgeClientBase):
             def add(self, a, b):
@@ -51,7 +51,7 @@ class BridgeClientBase:
         bridge.close()
     """
 
-    # Default timeouts — subclasses may override.
+    # Default timeouts - subclasses may override.
     READY_TIMEOUT: float = 10.0
     CALL_TIMEOUT: float = 30.0
 
@@ -181,7 +181,7 @@ class BridgeClientBase:
         Raises :class:`TimeoutError` if no response arrives within the timeout.
         """
         if self._closed or self._proc is None:
-            raise RuntimeError("Bridge is not running — call start() first")
+            raise RuntimeError("Bridge is not running - call start() first")
 
         call_id = str(uuid.uuid4())
         event = threading.Event()
@@ -262,7 +262,7 @@ class BridgeClientBase:
                 holder["result"] = msg.get("result")
             event.set()
 
-        # EOF — wake any remaining waiters
+        # EOF - wake any remaining waiters
         with self._pending_lock:
             for event, holder in self._pending.values():
                 holder["error"] = {"code": -32000, "message": "child process exited"}

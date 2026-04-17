@@ -1,4 +1,4 @@
-# Stitch — TypeScript → Rust
+# Stitch - TypeScript → Rust
 
 Newline-delimited JSON-RPC over stdio between a TypeScript/Node.js parent and a
 compiled Rust binary sidecar.
@@ -24,7 +24,7 @@ cp -r bridges/typescript-rust/template.sidecar \
       .stitch/rust/my_bridge
 ```
 
-Edit `.stitch/rust/my_bridge/Cargo.toml` — replace every occurrence of
+Edit `.stitch/rust/my_bridge/Cargo.toml` - replace every occurrence of
 `bridge_name` with `my_bridge`.
 
 Add your methods in `src/main.rs` where the `[CLAUDE_*]` comments indicate.
@@ -84,7 +84,7 @@ bridges/typescript-rust/
 │   ├── Cargo.toml            Cargo manifest template (rename bridge_name)
 │   └── src/
 │       └── main.rs           Rust sidecar template with [CLAUDE_*] markers
-├── template.client.ts        TypeScript client — spawn + JSON-RPC
+├── template.client.ts        TypeScript client - spawn + JSON-RPC
 ├── tests/
 │   ├── test-child/
 │   │   ├── Cargo.toml        Test sidecar manifest
@@ -115,14 +115,14 @@ the request loop.  The child exits when stdin reaches EOF (parent died).
 
 ## Key Design Decisions
 
-- **BufWriter + explicit flush** — every `writeln!` to stdout is immediately
+- **BufWriter + explicit flush** - every `writeln!` to stdout is immediately
   followed by `out.flush()`.  Forgetting this causes Node to hang waiting for
   data that is sitting in Rust's internal buffer.
-- **`ctrlc` crate** — registers a SIGTERM / Ctrl-C handler so the process exits
+- **`ctrlc` crate** - registers a SIGTERM / Ctrl-C handler so the process exits
   cleanly rather than leaving zombie processes.
-- **`randomUUID()`** — the TypeScript client uses Node's built-in
+- **`randomUUID()`** - the TypeScript client uses Node's built-in
   `crypto.randomUUID()` (no extra dependency).
-- **SIGTERM → SIGKILL(2 s)** — `killChild()` sends SIGTERM first, then
+- **SIGTERM → SIGKILL(2 s)** - `killChild()` sends SIGTERM first, then
   schedules SIGKILL with a 2-second grace period using `.unref()` so the timer
   does not prevent the Node process from exiting.
 
@@ -130,7 +130,7 @@ the request loop.  The child exits when stdin reaches EOF (parent died).
 
 ## See Also
 
-- [`edge-cases.md`](./edge-cases.md) — compile step, BufWriter flush, panic
+- [`edge-cases.md`](./edge-cases.md) - compile step, BufWriter flush, panic
   handling, Windows `.exe`, cross-compilation, `serde_json` number types.
-- [`future-scope.md`](./future-scope.md) — async Tokio, shared memory,
+- [`future-scope.md`](./future-scope.md) - async Tokio, shared memory,
   `ts-rs` type sharing, WASM, process pools.

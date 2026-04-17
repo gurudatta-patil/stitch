@@ -185,7 +185,7 @@ func main() {
 		os.Exit(0)
 	}()
 
-	// Ready handshake — MUST be first output line
+	// Ready handshake - MUST be first output line
 	writeJSON(map[string]bool{"ready": true})
 
 	// Increase scanner buffer to 4 MiB to handle large payloads

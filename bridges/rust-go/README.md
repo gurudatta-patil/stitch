@@ -1,4 +1,4 @@
-# Stitch — Rust → Go
+# Stitch - Rust → Go
 
 A production-ready template and integration-test suite for running a **Go binary
 as a sidecar subprocess** driven by a **Rust client** over newline-delimited
@@ -51,7 +51,7 @@ Rust closes stdin:          Go scanner.Scan() returns false → os.Exit(0)
 ```
 
 All messages are a single JSON object per line (NDJSON).  Debug output goes to
-stderr only — stdout is reserved for the protocol.
+stderr only - stdout is reserved for the protocol.
 
 ---
 
@@ -164,7 +164,7 @@ TEST_CHILD_BIN=$(pwd)/tests/test-child/test-child-bin \
 ```
 
 The `rust-go_test.rs` file uses `#[cfg(test)]` and is compiled as an
-integration test target — add it to your `Cargo.toml` under `[[test]]` when
+integration test target - add it to your `Cargo.toml` under `[[test]]` when
 integrating into a workspace.
 
 ---
@@ -212,7 +212,7 @@ details.
 
 ### Go (template.sidecar / tests/test-child)
 
-No external dependencies — only the Go standard library.  Minimum Go version:
+No external dependencies - only the Go standard library.  Minimum Go version:
 **1.21**.
 
 ---
@@ -238,6 +238,6 @@ Both binaries must target the same OS and architecture when deployed together.
 
 ## Further Reading
 
-- [edge-cases.md](./edge-cases.md) — 10 specific pitfalls with mitigations
-- [future-scope.md](./future-scope.md) — mmap IPC, CGo comparison, async Rust,
+- [edge-cases.md](./edge-cases.md) - 10 specific pitfalls with mitigations
+- [future-scope.md](./future-scope.md) - mmap IPC, CGo comparison, async Rust,
   protocol buffers, and more

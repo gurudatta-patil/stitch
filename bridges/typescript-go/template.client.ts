@@ -1,5 +1,5 @@
 /**
- * Stitch — TypeScript client for a compiled Go sidecar.
+ * Stitch - TypeScript client for a compiled Go sidecar.
  *
  * Spawn path convention:
  *   .stitch/go/<bridgeName>/bridge          (POSIX)

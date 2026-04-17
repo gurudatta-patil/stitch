@@ -12,7 +12,7 @@ cargo build --release
 
 inside the crate directory.  Attempting to spawn a non-existent binary produces
 an `ENOENT` spawn error in Node, which manifests as an immediate `error` event
-on the `ChildProcess` object rather than a readable message — always check that
+on the `ChildProcess` object rather than a readable message - always check that
 the binary exists before calling `start()`.
 
 ## 2. Binary size and cold-start latency
@@ -23,7 +23,7 @@ modern hardware.  Compare this to a CPython sidecar, which must import the
 interpreter and modules (often 80–300 ms on first launch).  The trade-off is
 the one-time compile cost (seconds to minutes depending on dependency count).
 
-## 3. `panic!` vs `Result` — Node hangs on unhandled panics
+## 3. `panic!` vs `Result` - Node hangs on unhandled panics
 
 A `panic!` in Rust prints a backtrace to **stderr** and then aborts the
 process (or unwinds, depending on the panic strategy).  It does **not** write a
@@ -36,7 +36,7 @@ Mitigation: wrap every dispatch arm in a `Result`-returning function and never
 use `unwrap()` or `expect()` in production paths.  Use `eprintln!()` for
 diagnostic output.
 
-## 4. `BufWriter` — forgetting `.flush()` causes Node to hang indefinitely
+## 4. `BufWriter` - forgetting `.flush()` causes Node to hang indefinitely
 
 `BufWriter` accumulates bytes in an internal buffer and only flushes to the
 underlying file descriptor when the buffer is full or explicitly flushed.  The
@@ -47,7 +47,7 @@ Node will block on `stdout.on("data", …)` indefinitely.
 Rule: call `out.flush().expect("flush")` immediately after every `writeln!`,
 including the `{"ready":true}` line.
 
-## 5. Windows — `.exe` extension in binary path
+## 5. Windows - `.exe` extension in binary path
 
 On Windows, Cargo produces `<name>.exe` rather than `<name>`.  The client path
 helper must check `os.platform() === "win32"` and append `.exe` accordingly.
@@ -70,7 +70,7 @@ architecture will not run on the other.  Options:
 The `.stitch/rust/<bridge>/target/release/` path must therefore be
 treated as platform-specific and never committed to version control.
 
-## 7. `serde_json` number types — `i64` vs `f64`
+## 7. `serde_json` number types - `i64` vs `f64`
 
 JSON has a single `number` type.  `serde_json` deserialises JSON numbers into
 `Value::Number`, which internally stores either an `i64`, `u64`, or `f64`.
@@ -80,9 +80,9 @@ both integer and floating-point JSON numbers) when the input type is unknown,
 and cast to integer only when you are certain the value has no fractional part.
 
 ```rust
-// Fragile — returns None for 3.0
+// Fragile - returns None for 3.0
 let n = params.get("n").and_then(Value::as_i64);
 
-// Robust — accepts 3 and 3.0
+// Robust - accepts 3 and 3.0
 let n = params.get("n").and_then(Value::as_f64).map(|f| f as i64);
 ```

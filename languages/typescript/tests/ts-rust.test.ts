@@ -6,7 +6,7 @@
  * Pre-requisite: `cargo build --release` inside the test fixture bridge dir.
  */
 
-// TODO Phase 3+ — implement after ts→python and ts→ruby are green
+// TODO Phase 3+ - implement after ts→python and ts→ruby are green
 
 describe('ts → rust: basic JSON-RPC', () => {
   test('sends a request and receives a matching response', async () => {

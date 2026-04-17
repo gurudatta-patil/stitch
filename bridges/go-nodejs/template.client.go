@@ -1,4 +1,4 @@
-// template.client.go — Go client that spawns a Node.js sidecar and communicates
+// template.client.go - Go client that spawns a Node.js sidecar and communicates
 // with it over newline-delimited JSON-RPC via stdin/stdout.
 //
 // Usage: replace the constants / Call invocations below with your own methods.
@@ -81,10 +81,10 @@ func NewNodeBridge(scriptPath string, args ...string) (*NodeBridge, error) {
 		return nil, fmt.Errorf("child exited before sending ready signal: %w", err)
 	}
 
-	// Dispatch loop — reads responses from the child and routes them.
+	// Dispatch loop - reads responses from the child and routes them.
 	go b.readLoop(scanner)
 
-	// SIGTERM / SIGINT watchdog — kill the child when the parent is signalled.
+	// SIGTERM / SIGINT watchdog - kill the child when the parent is signalled.
 	go func() {
 		ch := make(chan os.Signal, 1)
 		signal.Notify(ch, syscall.SIGTERM, syscall.SIGINT)
@@ -107,11 +107,11 @@ func (b *NodeBridge) readLoop(scanner interface {
 	for scanner.Scan() {
 		var resp stitch.RpcResponse
 		if err := json.Unmarshal(scanner.Bytes(), &resp); err != nil {
-			continue // malformed line — skip
+			continue // malformed line - skip
 		}
 		b.pending.Dispatch(resp)
 	}
-	// Scanner ended — child stdout closed; fail all pending callers.
+	// Scanner ended - child stdout closed; fail all pending callers.
 	b.pending.DrainWithError("child process exited")
 }
 

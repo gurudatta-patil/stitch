@@ -185,7 +185,7 @@ func TestStdinEOF(t *testing.T) {
 		t.Fatalf("failed to start sidecar: %v", err)
 	}
 
-	// Close immediately — do NOT defer so we can test afterwards.
+	// Close immediately - do NOT defer so we can test afterwards.
 	if err := c.Close(); err != nil {
 		t.Logf("close warning: %v", err) // non-fatal; process may already be gone
 	}

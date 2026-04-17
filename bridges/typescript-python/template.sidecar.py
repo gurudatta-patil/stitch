@@ -8,7 +8,7 @@ Slot markers (replaced by the code-generation layer):
 """
 
 # ──────────────────────────────────────────────────────────────────────────────
-# STDOUT DISCIPLINE — must happen before ANY third-party import.
+# STDOUT DISCIPLINE - must happen before ANY third-party import.
 # Redirect the real sys.stdout to stderr so that library print() calls never
 # corrupt the JSON-RPC channel.  All RPC writes use the saved _rpc_out handle.
 # ──────────────────────────────────────────────────────────────────────────────
@@ -38,7 +38,7 @@ _sys.stdout = _sys.stderr       # redirect; library noise goes to stderr
 
 
 # ──────────────────────────────────────────────────────────────────────────────
-# Handler registry — maps method names to callables.
+# Handler registry - maps method names to callables.
 # ──────────────────────────────────────────────────────────────────────────────
 
 HANDLERS = {
@@ -50,7 +50,7 @@ HANDLERS = {
 }
 
 # ──────────────────────────────────────────────────────────────────────────────
-# Entry-point — delegates all boilerplate to the shared sidecar base.
+# Entry-point - delegates all boilerplate to the shared sidecar base.
 # ──────────────────────────────────────────────────────────────────────────────
 
 import sys as _sys2

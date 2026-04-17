@@ -1,4 +1,4 @@
-# Stitch — Shared Modules
+# Stitch - Shared Modules
 
 This directory contains extracted boilerplate that was previously duplicated across all 13 bridge-pair templates. Each module is the single source of truth for its language.
 

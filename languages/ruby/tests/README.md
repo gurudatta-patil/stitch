@@ -10,8 +10,8 @@ A minimal sidecar implementing test methods:
 |--------|--------|--------|-------|
 | `echo` | `{"msg": string}` | `{"msg": string}` | Passes msg through unchanged |
 | `add` | `{"a": number, "b": number}` | `{"sum": number}` | Basic arithmetic |
-| `raise_error` | `{}` | — | Always raises `RuntimeError` with a backtrace |
+| `raise_error` | `{}` | - | Always raises `RuntimeError` with a backtrace |
 
 ## File to create
 
-`languages/ruby/tests/test-child.rb` — implement before running ts-ruby.test.ts.
+`languages/ruby/tests/test-child.rb` - implement before running ts-ruby.test.ts.

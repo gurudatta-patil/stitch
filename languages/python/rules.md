@@ -1,4 +1,4 @@
-# Language Rules — Python (Sidecar / Target)
+# Language Rules - Python (Sidecar / Target)
 
 Python is always the **target** (child process) in a bridge. It receives JSON-RPC requests and returns results.
 
@@ -18,7 +18,7 @@ Python is always the **target** (child process) in a bridge. It receives JSON-RP
 ## Startup Contract
 
 1. Imports complete.
-2. Write `{"ready": true}` to stdout and flush — **before entering the loop**.
+2. Write `{"ready": true}` to stdout and flush - **before entering the loop**.
 3. Block on `sys.stdin.readline()`.
 
 ---
@@ -30,7 +30,7 @@ Python is always the **target** (child process) in a bridge. It receives JSON-RP
 | stdin EOF | `sys.exit(0)` immediately (parent died) |
 | `SIGTERM` | Flush stdout, `sys.exit(0)` |
 | `SIGINT` | Flush stdout, `sys.exit(0)` |
-| `sys.exit` from watchdog | No cleanup needed — watchdog is daemon thread |
+| `sys.exit` from watchdog | No cleanup needed - watchdog is daemon thread |
 
 ### Watchdog thread (mandatory)
 

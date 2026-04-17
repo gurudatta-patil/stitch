@@ -1,4 +1,4 @@
-# Future Scope — Rust→Python Bridge
+# Future Scope - Rust→Python Bridge
 
 ## 1. Tokio async client
 

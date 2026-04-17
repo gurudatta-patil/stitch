@@ -1,4 +1,4 @@
-# Future Scope — Python → Rust Bridge
+# Future Scope - Python → Rust Bridge
 
 ## 1. `ts-rs` for Shared Type Schema Generation
 
@@ -49,7 +49,7 @@ approach using memory-mapped files can be orders of magnitude faster:
 [`mmap`](https://docs.python.org/3/library/mmap.html) (stdlib Python).
 
 **When to use:** audio/video frames, large numerical arrays, training data
-batches — anything where latency matters and the payload is bigger than a
+batches - anything where latency matters and the payload is bigger than a
 few hundred kilobytes.
 
 ---
@@ -75,10 +75,10 @@ IPC overhead:
 | Async support | Natural (threading) | Requires careful GIL management |
 
 **Recommended tools:**
-- [`cbindgen`](https://github.com/mozilla/cbindgen) — generate C headers from Rust.
-- [`cffi`](https://cffi.readthedocs.io/) — call C libraries from Python with
+- [`cbindgen`](https://github.com/mozilla/cbindgen) - generate C headers from Rust.
+- [`cffi`](https://cffi.readthedocs.io/) - call C libraries from Python with
   automatic struct layout.
-- [`PyO3`](https://pyo3.rs/) — write native Python extension modules in Rust
+- [`PyO3`](https://pyo3.rs/) - write native Python extension modules in Rust
   (higher level than raw FFI; full Python type system).
 
 ---

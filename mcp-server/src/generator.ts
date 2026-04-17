@@ -1,5 +1,5 @@
 /**
- * generator.ts — template reader for Stitch.
+ * generator.ts - template reader for Stitch.
  *
  * The old version called `claude --print` internally (Claude calling itself).
  * This version is scaffold-only: it just reads template files from disk

@@ -8,7 +8,7 @@
 //   Error    : {"id":"<uuid>","error":{"code":<int>,"message":"<str>"}}
 //   Shutdown : stdin EOF → clean exit (os.Exit(0))
 //
-// Debug logs go to stderr only — never to stdout.
+// Debug logs go to stderr only - never to stdout.
 
 package main
 
@@ -65,7 +65,7 @@ func main() {
 
 		var req Request
 		if err := json.Unmarshal([]byte(line), &req); err != nil {
-			fmt.Fprintf(os.Stderr, "[sidecar] parse error: %v — line: %s\n", err, line)
+			fmt.Fprintf(os.Stderr, "[sidecar] parse error: %v - line: %s\n", err, line)
 			continue
 		}
 
@@ -82,6 +82,6 @@ func main() {
 		os.Exit(1)
 	}
 
-	fmt.Fprintln(os.Stderr, "[sidecar] stdin closed — exiting cleanly")
+	fmt.Fprintln(os.Stderr, "[sidecar] stdin closed - exiting cleanly")
 	os.Exit(0)
 }

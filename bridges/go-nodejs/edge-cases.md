@@ -1,4 +1,4 @@
-# Edge Cases — Go → Node.js Bridge
+# Edge Cases - Go → Node.js Bridge
 
 ## 1. Node.js async event loop: concurrency is free
 
@@ -6,14 +6,14 @@ Node.js runs on a single-threaded event loop with native async/await. Every hand
 in the sidecar is implicitly non-blocking as long as it uses `async` functions and
 does not call synchronous blocking APIs (e.g. `fs.readFileSync` on large files,
 `child_process.execSync`). This means the sidecar can handle multiple in-flight
-requests without any threads or mutexes — it receives line N+1 before the promise
+requests without any threads or mutexes - it receives line N+1 before the promise
 from line N resolves, and each `process.stdout.write` call is fire-and-forget (the
 event loop serialises them internally).
 
 **Actionable rule:** always `await` I/O inside handlers. Never use `*Sync` variants
 in production sidecars.
 
-## 2. readline 'close' event — the most reliable stdin-EOF watchdog
+## 2. readline 'close' event - the most reliable stdin-EOF watchdog
 
 When the Go parent closes its `stdin` pipe (or exits), the OS closes the read end of
 the child's stdin. Node's `readline.Interface` detects this and emits `'close'`. This
@@ -27,7 +27,7 @@ is more reliable than polling because:
 rl.on('close', () => process.exit(0));
 ```
 
-Do **not** use `process.stdin.on('end', ...)` alone — `readline` may buffer and not
+Do **not** use `process.stdin.on('end', ...)` alone - `readline` may buffer and not
 propagate the `end` event immediately.
 
 ## 3. process.stdout highWaterMark and backpressure
@@ -57,7 +57,7 @@ base-64 blob).
 On Windows the executable is `node.exe`, not `node`. The `LookupNode()` helper in
 `node_lookup.go` tries both names via `exec.LookPath`. Additionally:
 
-- Node may be installed via `nvm-windows`, `fnm`, or `volta` — these add shim
+- Node may be installed via `nvm-windows`, `fnm`, or `volta` - these add shim
   directories to `PATH` that may not be visible to child processes spawned from Go
   unless the parent inherits the full `PATH`.
 - The Go `exec.Command` on Windows requires the full path or a PATH-resolvable name;
@@ -80,7 +80,7 @@ If you want to use ES modules:
 | TypeScript + tsx | use `tsx sidecar.ts`; see `future-scope.md` |
 
 **Pitfall:** `readline.createInterface` is identical in both systems. However dynamic
-`require()` (e.g. loading plugins) does not work inside ES modules — use `import()`
+`require()` (e.g. loading plugins) does not work inside ES modules - use `import()`
 instead.
 
 ## 6. Node version differences in readline
@@ -100,14 +100,14 @@ support Node 14/16.
 
 The correct teardown sequence from the Go side is:
 
-1. Call `bridge.Close()` — this calls `stdin.Close()`.
+1. Call `bridge.Close()` - this calls `stdin.Close()`.
 2. The OS delivers EOF to the child's stdin.
 3. readline emits `'close'`; the child calls `process.exit(0)`.
 4. Go's `cmd.Wait()` returns (exit code 0).
 
 If the child does not exit within a reasonable timeout, the Go side should call
 `cmd.Process.Kill()` as a fallback. The current template does not implement a kill
-timeout — add one for production use:
+timeout - add one for production use:
 
 ```go
 done := make(chan error, 1)

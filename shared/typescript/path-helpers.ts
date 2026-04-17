@@ -1,5 +1,5 @@
 /**
- * Stitch — TypeScript path resolution helpers.
+ * Stitch - TypeScript path resolution helpers.
  *
  * Provides canonical ways to find the Python venv executable and
  * locate a compiled binary for any language target (Go, Rust, …).

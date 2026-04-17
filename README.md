@@ -2,26 +2,26 @@
 
 **Import anything. From anywhere.**
 
-Every language has something the others don't. Python has the ML ecosystem. Go has concurrency and speed. Rust has zero-cost safety. Ruby has expressive elegance. But your project is in TypeScript — or Go — or Python — and rewriting it isn't the answer.
+Every language has something the others don't. Python has the ML ecosystem. Go has concurrency and speed. Rust has zero-cost safety. Ruby has expressive elegance. But your project is in TypeScript or Go or Python and rewriting it isn't the answer.
 
-Stitch lets you call functions across language boundaries as if they were local imports. You describe the function you need, Claude Code generates a typed bridge, and Stitch spins up a lightweight child process for that capability — and only that capability. Your main app stays in its language. The other language runs only the functions that need it.
+Stitch lets you call functions across language boundaries as if they were local imports. You describe the function you need, Claude Code generates a typed bridge, and Stitch spins up a lightweight child process for that capability and only that capability. Your main app stays in its language. The other language runs only the functions that need it.
 
 ```typescript
-// TypeScript app — using Python's ML ecosystem
+// TypeScript app  using Python's ML ecosystem
 const { faces } = await bridge.detect({ image_b64 });
 
-// TypeScript app — using Go's native PDF renderer
+// TypeScript app  using Go's native PDF renderer
 const { pdf_b64 } = await bridge.render({ html, pageSize: "A4" });
 ```
 
 ```python
-# Python app — using Rust for CPU-intensive number crunching
+# Python app  using Rust for CPU-intensive number crunching
 result = bridge.call("compute_fft", {"signal": data})
 ```
 
-No HTTP server. No Docker. No ports. No lingering processes. Just a function call that happens to run in a different language — and disappears cleanly when your app exits.
+No HTTP server. No Docker. No ports. No lingering processes. Just a function call that happens to run in a different language  and disappears cleanly when your app exits.
 
-> Built for **Claude Code**. Stitch is an MCP server — describe what you need and Claude generates the bridge for you.
+> Built for **Claude Code**. Stitch is an MCP server describe what you need and Claude generates the bridge for you.
 
 ---
 
@@ -34,7 +34,7 @@ Stitch ships as a Claude Code MCP server with two tools:
 | `get_stitch_templates` | Returns the raw template + slot docs for a language pair |
 | `setup_stitch` | Writes files, patches paths, copies shared helpers, sets up venv/build |
 
-**Claude Code is the code generator.** The MCP handles only the deterministic scaffolding work — no subprocess is spawned, no second LLM call is made.
+**Claude Code is the code generator.** The MCP handles only the deterministic scaffolding work  no subprocess is spawned, no second LLM call is made.
 
 ### 1. Register once
 ## MCP
@@ -110,10 +110,10 @@ await bridge.stop();
 
 | Client \ Sidecar | Python | Ruby | Go | Rust | Node.js |
 |-----------------|:------:|:----:|:--:|:----:|:-------:|
-| **TypeScript**  |   ✅   |  ✅  | ✅ |  ✅  |    —    |
-| **Go**          |   ✅   |  ✅  |  — |   —  |   ✅    |
-| **Python**      |    —   |  ✅  | ✅ |  ✅  |    —    |
-| **Rust**        |   ✅   |  ✅  | ✅ |   —  |    —    |
+| **TypeScript**  |   ✅   |  ✅  | ✅ |  ✅  |        |
+| **Go**          |   ✅   |  ✅  |   |     |   ✅    |
+| **Python**      |       |  ✅  | ✅ |  ✅  |        |
+| **Rust**        |   ✅   |  ✅  | ✅ |     |        |
 
 Specify `language_pair` as `<client>-<sidecar>`, e.g. `typescript-python`, `go-ruby`, `rust-go`.
 
@@ -139,9 +139,9 @@ For compiled sidecars (Go, Rust), the sidecar source lives in `bridges/<name>_si
 
 ## How it works
 
-You get two generated files per bridge — a typed client in your language, and a sidecar in the target language. When you call a method, the client spawns the sidecar as a child process on first use, sends it the request over stdin, and waits for the result on stdout. The sidecar exits automatically when your app exits — no cleanup code needed.
+You get two generated files per bridge  a typed client in your language, and a sidecar in the target language. When you call a method, the client spawns the sidecar as a child process on first use, sends it the request over stdin, and waits for the result on stdout. The sidecar exits automatically when your app exits  no cleanup code needed.
 
-Each bridge is scoped to exactly the functions you asked for. You're not embedding a Python interpreter or linking a Go runtime into your app — you're spawning a small focused process that does one job.
+Each bridge is scoped to exactly the functions you asked for. You're not embedding a Python interpreter or linking a Go runtime into your app  you're spawning a small focused process that does one job.
 
 ---
 

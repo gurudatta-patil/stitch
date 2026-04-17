@@ -1,9 +1,9 @@
 /**
- * validator.ts — post-generation sanity checks for Stitch output.
+ * validator.ts - post-generation sanity checks for Stitch output.
  *
  * Rules check only what appears in the GENERATED portion of each template.
  * Shared base classes (sidecar_base.py, BridgeClientBase, etc.) handle the
- * RPC machinery — we don't validate those here.
+ * RPC machinery - we don't validate those here.
  */
 
 // lang values match ClientLang | SidecarLang from language-pair.ts; using string avoids circular import.
@@ -25,13 +25,13 @@ export function validatePython(code: string): ValidationResult {
     failures.push("Missing stdout redirect: `_sys.stdout = _sys.stderr`");
 
   if (/(?<![_\w])print\s*\(/.test(code))
-    failures.push("Contains bare `print(` — all output must go via _rpc_out");
+    failures.push("Contains bare `print(` - all output must go via _rpc_out");
 
   if (/sys\.stdout\.write/.test(code))
-    failures.push("Contains `sys.stdout.write` — use `_rpc_out.write` instead");
+    failures.push("Contains `sys.stdout.write` - use `_rpc_out.write` instead");
 
   if (code.includes("# STITCH-WARNING"))
-    failures.push("Contains STITCH-WARNING — dependency requires a C++ compiler");
+    failures.push("Contains STITCH-WARNING - dependency requires a C++ compiler");
 
   return { ok: failures.length === 0, failures };
 }
@@ -52,7 +52,7 @@ export function validateTypeScript(code: string): ValidationResult {
     failures.push("Missing bridge class extending BridgeClientBase");
 
   if (!code.includes("killChild("))
-    failures.push("Missing `killChild(` — destroy() must call killChild");
+    failures.push("Missing `killChild(` - destroy() must call killChild");
 
   return { ok: failures.length === 0, failures };
 }
@@ -69,7 +69,7 @@ export function validateRuby(code: string): ValidationResult {
     failures.push("Missing `require_relative` for sidecar_base");
 
   if (/\bputs\b/.test(code))
-    failures.push("Contains `puts` — sidecar_base handles all output; never use puts");
+    failures.push("Contains `puts` - sidecar_base handles all output; never use puts");
 
   return { ok: failures.length === 0, failures };
 }
@@ -80,16 +80,16 @@ export function validateGo(code: string): ValidationResult {
   const failures: string[] = [];
 
   if (!code.includes("sidecar.SendReady("))
-    failures.push("Missing `sidecar.SendReady(` — required for handshake");
+    failures.push("Missing `sidecar.SendReady(` - required for handshake");
 
   if (!code.includes("sidecar.NewScanner("))
-    failures.push("Missing `sidecar.NewScanner(` — required for stdin loop");
+    failures.push("Missing `sidecar.NewScanner(` - required for stdin loop");
 
   if (!code.includes("sidecar.SendResponse("))
-    failures.push("Missing `sidecar.SendResponse(` — required to respond to requests");
+    failures.push("Missing `sidecar.SendResponse(` - required to respond to requests");
 
   if (!code.includes("sidecar.InstallSignalHandler("))
-    failures.push("Missing `sidecar.InstallSignalHandler(` — required for clean shutdown");
+    failures.push("Missing `sidecar.InstallSignalHandler(` - required for clean shutdown");
 
   return { ok: failures.length === 0, failures };
 }
@@ -100,10 +100,10 @@ export function validateRust(code: string): ValidationResult {
   const failures: string[] = [];
 
   if (!code.includes("run_sidecar("))
-    failures.push("Missing `run_sidecar(` — entry point required");
+    failures.push("Missing `run_sidecar(` - entry point required");
 
   if (!code.includes("serde_json") && !code.includes("serde_json::"))
-    failures.push("Missing serde_json usage — params must be deserialised");
+    failures.push("Missing serde_json usage - params must be deserialised");
 
   return { ok: failures.length === 0, failures };
 }
@@ -117,10 +117,10 @@ export function validateNodeJs(code: string): ValidationResult {
     failures.push("Missing ready signal: `process.stdout.write(JSON.stringify({ ready: true }) + '\\n')`");
 
   if (!code.includes("readline"))
-    failures.push("Missing `readline` — required for stdin line-by-line reading");
+    failures.push("Missing `readline` - required for stdin line-by-line reading");
 
   if (/\bconsole\.log\b/.test(code))
-    failures.push("Contains `console.log` — all output must go through process.stdout.write");
+    failures.push("Contains `console.log` - all output must go through process.stdout.write");
 
   return { ok: failures.length === 0, failures };
 }
@@ -131,7 +131,7 @@ export function validatePythonClient(code: string): ValidationResult {
   const failures: string[] = [];
 
   if (!code.includes("BridgeClientBase") && !code.includes("GoBridge") && !code.includes("RubyBridge") && !code.includes("RustBridge"))
-    failures.push("Missing BridgeClientBase (or named subclass) — client must inherit from it");
+    failures.push("Missing BridgeClientBase (or named subclass) - client must inherit from it");
 
   return { ok: failures.length === 0, failures };
 }
@@ -142,10 +142,10 @@ export function validateGoClient(code: string): ValidationResult {
   const failures: string[] = [];
 
   if (!code.includes("WaitReady") && !code.includes("stitch.WaitReady"))
-    failures.push("Missing WaitReady call — required to wait for sidecar handshake");
+    failures.push("Missing WaitReady call - required to wait for sidecar handshake");
 
   if (!code.includes("PendingMap") && !code.includes("pending"))
-    failures.push("Missing PendingMap — required for async request tracking");
+    failures.push("Missing PendingMap - required for async request tracking");
 
   return { ok: failures.length === 0, failures };
 }
@@ -156,10 +156,10 @@ export function validateRustClient(code: string): ValidationResult {
   const failures: string[] = [];
 
   if (!code.includes("PendingMap") && !code.includes("pending_map"))
-    failures.push("Missing PendingMap — required for async request tracking");
+    failures.push("Missing PendingMap - required for async request tracking");
 
   if (!code.includes("kill_child"))
-    failures.push("Missing `kill_child` — Drop impl must call kill_child");
+    failures.push("Missing `kill_child` - Drop impl must call kill_child");
 
   return { ok: failures.length === 0, failures };
 }
@@ -181,7 +181,7 @@ export function validateCode(
     case "nodejs":   return validateNodeJs(code);
     case "go":       return validateGo(code);
     case "rust":     return validateRust(code);
-    // Client languages — TypeScript is the same as the sidecar ts validator isn't needed
+    // Client languages - TypeScript is the same as the sidecar ts validator isn't needed
     case "typescript": return validateTypeScript(code);
     default:         return { ok: true, failures: [] };
   }

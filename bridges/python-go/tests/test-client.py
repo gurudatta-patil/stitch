@@ -1,5 +1,5 @@
 """
-test-client.py — minimal manual smoke-test that spawns the compiled Go test-child
+test-client.py - minimal manual smoke-test that spawns the compiled Go test-child
 binary and exercises each method once.
 
 Run

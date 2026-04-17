@@ -94,7 +94,7 @@ func handleAdd(req Request) {
 	writeJSON(Response{ID: req.ID, Result: map[string]float64{"sum": params.A + params.B}})
 }
 
-// raise_error always returns a JSON-RPC error response — used to test error bubbling.
+// raise_error always returns a JSON-RPC error response - used to test error bubbling.
 func handleRaiseError(req Request) {
 	var params struct {
 		Message string `json:"message"`
@@ -175,7 +175,7 @@ func main() {
 	signal.Notify(sigCh, syscall.SIGINT, syscall.SIGTERM)
 	go func() {
 		sig := <-sigCh
-		fmt.Fprintf(os.Stderr, "received signal %v — shutting down\n", sig)
+		fmt.Fprintf(os.Stderr, "received signal %v - shutting down\n", sig)
 		os.Exit(0)
 	}()
 
@@ -192,7 +192,7 @@ func main() {
 		}
 		var req Request
 		if err := json.Unmarshal(line, &req); err != nil {
-			fmt.Fprintf(os.Stderr, "failed to parse request: %v — raw: %s\n", err, line)
+			fmt.Fprintf(os.Stderr, "failed to parse request: %v - raw: %s\n", err, line)
 			continue
 		}
 		dispatch(req)

@@ -5,7 +5,7 @@ Run directly::
 
     python tests/test-client.py
 
-This file is intentionally standalone — it embeds a minimal copy of the
+This file is intentionally standalone - it embeds a minimal copy of the
 RubyBridge class so you can run it without installing anything.
 """
 

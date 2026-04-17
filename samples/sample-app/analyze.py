@@ -1,5 +1,5 @@
 """
-analyze.py — standalone Python text-analysis script.
+analyze.py - standalone Python text-analysis script.
 
 This works perfectly as a standalone script, but the goal is to
 call it from TypeScript via Stitch.

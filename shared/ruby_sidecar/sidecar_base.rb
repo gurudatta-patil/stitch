@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 #
-# Stitch — shared Ruby sidecar base.
+# Stitch - shared Ruby sidecar base.
 #
 # All Ruby sidecars (typescript-ruby, go-ruby, python-ruby, rust-ruby) call
 # +run_sidecar(handlers)+ from this file rather than duplicating the sync
@@ -67,7 +67,7 @@ end
 #   }.freeze
 #   run_sidecar(HANDLERS)
 def run_sidecar(handlers)
-  # Signal readiness — the parent blocks until it reads this line.
+  # Signal readiness - the parent blocks until it reads this line.
   $stdout.puts JSON.generate({ ready: true })
   $stdout.flush
 

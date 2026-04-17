@@ -237,7 +237,7 @@ fn build_test_child() -> PathBuf {
         .args(["build", "-o", out_bin.to_str().unwrap(), "."])
         .current_dir(&child_dir)
         .status()
-        .expect("Failed to invoke `go build` — is Go installed?");
+        .expect("Failed to invoke `go build` - is Go installed?");
 
     if !status.success() {
         panic!("go build failed with status {status}");
@@ -357,7 +357,7 @@ fn run_tests(bin: &str) {
     println!("\n── Slow method ──────────────────────────");
     {
         let mut b = Bridge::spawn(bin);
-        // slow sleeps 200 ms — well within our 15 s call timeout.
+        // slow sleeps 200 ms - well within our 15 s call timeout.
         let r = b.call("slow", json!({"ms": 200}));
         results.assert_ok("slow/200ms", r, json!({"slept_ms": 200}));
         b.shutdown();

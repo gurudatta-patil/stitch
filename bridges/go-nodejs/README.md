@@ -1,8 +1,8 @@
-# Stitch — Go → Node.js
+# Stitch - Go → Node.js
 
 Spawn a Node.js sidecar from Go and call any JavaScript/npm function as a simple
 blocking RPC call. Communication happens over newline-delimited JSON-RPC on
-stdin/stdout — no network, no ports, no serialization library required.
+stdin/stdout - no network, no ports, no serialization library required.
 
 ---
 
@@ -19,7 +19,7 @@ b.Close()                    ──▶  stdin EOF → rl.on('close') → process
 ```
 
 Every `Call` is multiplexed over a single stdin/stdout pipe.  Concurrent calls from
-multiple goroutines are fully supported — each request carries a UUID and responses
+multiple goroutines are fully supported - each request carries a UUID and responses
 are routed back to the correct caller.
 
 ---
@@ -124,7 +124,7 @@ on `PATH` or the child fails to start.
 
 ### `(*NodeBridge).Call(method string, params map[string]any) (json.RawMessage, error)`
 
-Sends one JSON-RPC request and blocks until the response arrives.  Thread-safe —
+Sends one JSON-RPC request and blocks until the response arrives.  Thread-safe -
 multiple goroutines may call `Call` concurrently.
 
 Returns `(nil, *rpcError)` when the child returns an error object.
@@ -171,7 +171,7 @@ environments without Node do not fail the overall build.
 - Go side: a single `sync.Mutex` serialises writes to stdin; responses are demuxed
   by UUID into per-call channels.
 - Node side: `readline` delivers lines sequentially, but `async` handlers run
-  concurrently on the event loop.  Results may arrive out of order — this is
+  concurrently on the event loop.  Results may arrive out of order - this is
   intentional and correct.
 
 ---

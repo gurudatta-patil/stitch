@@ -1,4 +1,4 @@
-//! Stitch test-runner — exercises all test-child.py methods.
+//! Stitch test-runner - exercises all test-child.py methods.
 //!
 //! Run:
 //!   SIDECAR_SCRIPT=../test-child.py cargo run
@@ -135,7 +135,7 @@ impl Bridge {
         Ok(resp.result.unwrap_or(Value::Null))
     }
 
-    /// Cloneable pending map — needed for concurrent tests.
+    /// Cloneable pending map - needed for concurrent tests.
     fn pending(&self) -> PendingMap { Arc::clone(&self.pending) }
     fn raw_stdin(&mut self) -> &mut ChildStdin { &mut self.stdin }
 
@@ -320,7 +320,7 @@ fn test_concurrent() {
 
 fn test_stdin_eof() {
     print!("test_stdin_eof ... ");
-    // Drop the bridge immediately — stdin is closed, child should exit.
+    // Drop the bridge immediately - stdin is closed, child should exit.
     let b = new_bridge();
     drop(b); // Drop triggers kill+wait via Drop impl.
     println!("ok");

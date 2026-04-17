@@ -46,7 +46,7 @@ type RpcResponse struct {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// PendingMap — mutex-guarded map of in-flight calls
+// PendingMap - mutex-guarded map of in-flight calls
 // ─────────────────────────────────────────────────────────────────────────────
 
 // PendingMap manages in-flight RPC calls, each identified by a string UUID.
@@ -119,7 +119,7 @@ func NewScanner(r io.Reader) *bufio.Scanner {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// KillChild — SIGTERM → SIGKILL(2 s) pattern
+// KillChild - SIGTERM → SIGKILL(2 s) pattern
 // ─────────────────────────────────────────────────────────────────────────────
 
 // KillChild sends SIGTERM to the child process; if it has not exited after 2 s
@@ -148,7 +148,7 @@ func KillChild(cmd *exec.Cmd) {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// WaitReady — read lines until {"ready":true}
+// WaitReady - read lines until {"ready":true}
 // ─────────────────────────────────────────────────────────────────────────────
 
 // WaitReady advances scanner until it finds a line that decodes as

@@ -1,5 +1,5 @@
 """
-Stitch — Python sidecar template.
+Stitch - Python sidecar template.
 
 Replace every section marked TODO with your own logic.
 
@@ -48,7 +48,7 @@ _HANDLERS: dict = {
     "ping": _handle_ping,
 }
 
-# ── Entry-point — delegates all boilerplate to the shared sidecar base ────────
+# ── Entry-point - delegates all boilerplate to the shared sidecar base ────────
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'shared', 'python_sidecar'))
 from sidecar_base import run_sidecar, set_rpc_out  # noqa: E402

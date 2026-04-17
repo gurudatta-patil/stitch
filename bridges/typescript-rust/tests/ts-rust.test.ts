@@ -158,41 +158,41 @@ describe("TypeScript → Rust bridge", () => {
     expect(true).toBe(true);
   });
 
-  it("echo — round-trip text", async () => {
+  it("echo - round-trip text", async () => {
     child = spawnChild();
     await child.waitReady();
     const result = await child.call("echo", { text: "hello, world" });
     expect(result).toEqual({ text: "hello, world" });
   });
 
-  it("echo — empty string", async () => {
+  it("echo - empty string", async () => {
     child = spawnChild();
     await child.waitReady();
     const result = await child.call("echo", { text: "" });
     expect(result).toEqual({ text: "" });
   });
 
-  it("add — integers", async () => {
+  it("add - integers", async () => {
     child = spawnChild();
     await child.waitReady();
     const result = await child.call("add", { a: 3, b: 4 });
     expect(result).toEqual({ sum: 7 });
   });
 
-  it("add — floats", async () => {
+  it("add - floats", async () => {
     child = spawnChild();
     await child.waitReady();
     const result = await child.call("add", { a: 1.5, b: 2.25 });
     expect((result as { sum: number }).sum).toBeCloseTo(3.75);
   });
 
-  it("add — missing param returns error", async () => {
+  it("add - missing param returns error", async () => {
     child = spawnChild();
     await child.waitReady();
     await expect(child.call("add", { a: 1 })).rejects.toThrow();
   });
 
-  it("raise_error — error is bubbled to caller", async () => {
+  it("raise_error - error is bubbled to caller", async () => {
     child = spawnChild();
     await child.waitReady();
     await expect(
@@ -200,7 +200,7 @@ describe("TypeScript → Rust bridge", () => {
     ).rejects.toThrow("boom from Rust");
   });
 
-  it("raise_error — error object has traceback property", async () => {
+  it("raise_error - error object has traceback property", async () => {
     child = spawnChild();
     await child.waitReady();
     try {
@@ -211,7 +211,7 @@ describe("TypeScript → Rust bridge", () => {
     }
   });
 
-  it("echo_b64 — base64 encodes text", async () => {
+  it("echo_b64 - base64 encodes text", async () => {
     child = spawnChild();
     await child.waitReady();
     const result = await child.call("echo_b64", { text: "hello" });
@@ -219,7 +219,7 @@ describe("TypeScript → Rust bridge", () => {
     expect(result).toEqual({ encoded: "aGVsbG8=" });
   });
 
-  it("slow — completes after delay", async () => {
+  it("slow - completes after delay", async () => {
     child = spawnChild();
     await child.waitReady();
     const start = Date.now();
@@ -237,7 +237,7 @@ describe("TypeScript → Rust bridge", () => {
     );
   });
 
-  it("concurrency — 20 simultaneous calls resolved correctly", async () => {
+  it("concurrency - 20 simultaneous calls resolved correctly", async () => {
     child = spawnChild();
     await child.waitReady();
 
@@ -251,7 +251,7 @@ describe("TypeScript → Rust bridge", () => {
     });
   });
 
-  it("concurrency — mix of echo and add", async () => {
+  it("concurrency - mix of echo and add", async () => {
     child = spawnChild();
     await child.waitReady();
 
@@ -274,13 +274,13 @@ describe("TypeScript → Rust bridge", () => {
     });
   });
 
-  it("stdin EOF — child exits when stdin is closed", async () => {
+  it("stdin EOF - child exits when stdin is closed", async () => {
     child = spawnChild();
     await child.waitReady();
 
     await new Promise<void>((resolve, reject) => {
       child!.proc.on("exit", (code, signal) => {
-        // Any exit is acceptable — the key is that it exits.
+        // Any exit is acceptable - the key is that it exits.
         resolve();
       });
 

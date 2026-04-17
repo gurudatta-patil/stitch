@@ -1,4 +1,4 @@
-# Edge Cases — Rust→Python Bridge
+# Edge Cases - Rust→Python Bridge
 
 ## 1. Ownership and thread safety: `RpcResponse` must be `Send + 'static`
 
@@ -68,7 +68,7 @@ impl Drop for PythonBridge {
 }
 ```
 
-Ignore errors in `Drop` — the process may already be dead.
+Ignore errors in `Drop` - the process may already be dead.
 
 ## 6. Windows: venv path and signal handling
 
@@ -76,7 +76,7 @@ On Windows:
 - The Python interpreter is at `venv\Scripts\python.exe`, not `venv/bin/python`.
 - `SIGTERM` is not a real OS signal; `child.kill()` sends `TerminateProcess`
   which is immediate and equivalent to SIGKILL.  Do not attempt `libc::kill`
-  with SIGTERM on Windows — gate it behind `#[cfg(unix)]`.
+  with SIGTERM on Windows - gate it behind `#[cfg(unix)]`.
 - Use `std::env::var("COMSPEC")` or `where python` to locate a system Python
   if no venv is present.
 
@@ -90,7 +90,7 @@ reader thread.  If you register it after, the reader may process the
 ## 8. Stray `print()` in Python imports corrupts the JSON stream
 
 The `sys.stdout = sys.stderr` redirect must be the very first statement in the
-sidecar script — before `import` lines.  Some libraries (notably `tqdm`,
+sidecar script - before `import` lines.  Some libraries (notably `tqdm`,
 `transformers`, logging handlers, and `__init__.py` side-effects) print to
 stdout on import.  Any non-JSON output before `{"ready":true}` will cause the
 Rust reader to log a parse error and the ready handshake may fail.

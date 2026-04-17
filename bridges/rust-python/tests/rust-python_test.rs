@@ -1,12 +1,12 @@
-//! Stitch — Rust `#[cfg(test)]` integration tests for the Rust→Python bridge.
+//! Stitch - Rust `#[cfg(test)]` integration tests for the Rust→Python bridge.
 //!
 //! These tests run with `cargo test` from any crate that has the bridge source
 //! available.  They spawn `test-child.py` as the sidecar.
 //!
 //! Environment variables
 //! ---------------------
-//! SIDECAR_SCRIPT  — path to test-child.py   (default: auto-detected)
-//! PYTHON_PATH     — Python interpreter path  (default: venv or python3)
+//! SIDECAR_SCRIPT  - path to test-child.py   (default: auto-detected)
+//! PYTHON_PATH     - Python interpreter path  (default: venv or python3)
 
 #[cfg(test)]
 mod bridge_tests {
@@ -218,7 +218,7 @@ mod bridge_tests {
     #[test]
     fn test_stdin_eof_exits_cleanly() {
         let b = Bridge::start();
-        // Explicit drop — kill() + wait() are called; if the child hung this
+        // Explicit drop - kill() + wait() are called; if the child hung this
         // test would time out.
         drop(b);
     }

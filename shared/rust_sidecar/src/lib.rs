@@ -1,4 +1,4 @@
-//! Stitch — shared Rust sidecar library.
+//! Stitch - shared Rust sidecar library.
 //!
 //! All Rust sidecars (typescript-rust, python-rust) use this crate instead
 //! of duplicating the BufWriter setup, ctrl-c handler, ready signal, and
@@ -78,7 +78,7 @@ pub fn send_error(out: &mut BufWriter<impl Write>, id: &str, message: &str, trac
 /// writes the response.
 ///
 /// # Parameters
-/// - `dispatch` — called with `(method: &str, params: Value)`.  Return
+/// - `dispatch` - called with `(method: &str, params: Value)`.  Return
 ///   `Ok(Value)` for a success response or `Err(String)` for an error.
 ///
 /// The function returns when stdin reaches EOF.
@@ -96,7 +96,7 @@ where
     let stdout = io::stdout();
     let mut out = BufWriter::new(stdout.lock());
 
-    // Emit ready signal — parent blocks until it reads this.
+    // Emit ready signal - parent blocks until it reads this.
     writeln!(out, "{}", json!({"ready": true})).expect("write ready");
     out.flush().expect("flush ready");
 

@@ -1,5 +1,5 @@
 /**
- * Stitch — TypeScript → Go integration tests
+ * Stitch - TypeScript → Go integration tests
  *
  * Before running: ensure `go` is on PATH.
  * The suite compiles the test-child sidecar automatically via execSync.

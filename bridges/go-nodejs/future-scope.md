@@ -1,16 +1,16 @@
-# Future Scope — Go → Node.js Bridge
+# Future Scope - Go → Node.js Bridge
 
 ## 1. Reuse existing npm packages in Go services
 
 The primary motivation for this bridge is accessing the vast npm ecosystem from Go.
 Some high-value targets:
 
-- **PDF generation** — `pdfkit`, `puppeteer` (headless Chrome), `@react-pdf/renderer`
-- **Rich text / DOCX** — `docx`, `officegen`
-- **Image processing** — `sharp` (libvips bindings), `jimp`
-- **Cryptography** — `node-forge`, `jose` (JWT/JWE)
-- **Data validation** — `zod`, `ajv`
-- **ML inference** — `@xenova/transformers` (ONNX Runtime in Node)
+- **PDF generation** - `pdfkit`, `puppeteer` (headless Chrome), `@react-pdf/renderer`
+- **Rich text / DOCX** - `docx`, `officegen`
+- **Image processing** - `sharp` (libvips bindings), `jimp`
+- **Cryptography** - `node-forge`, `jose` (JWT/JWE)
+- **Data validation** - `zod`, `ajv`
+- **ML inference** - `@xenova/transformers` (ONNX Runtime in Node)
 
 The sidecar pattern keeps these dependencies entirely on the Node side; the Go binary
 stays free of cgo and native build requirements.
@@ -95,12 +95,12 @@ reading lines from a separate goroutine and forwarding them to the channel.
 For CPU-intensive Node work (e.g. synchronous crypto, canvas rendering), a single
 Node process becomes a bottleneck because the event loop is single-threaded. Options:
 
-- **Worker threads** — use `node:worker_threads` inside the sidecar; Go sees one
+- **Worker threads** - use `node:worker_threads` inside the sidecar; Go sees one
   process but Node distributes work internally.
-- **Process pool** — the Go side spawns N sidecar processes and load-balances
+- **Process pool** - the Go side spawns N sidecar processes and load-balances
   `Call()` invocations across them using a round-robin or least-outstanding-requests
   strategy.
-- **Cluster module** — rarely useful for IPC; worker_threads is preferred.
+- **Cluster module** - rarely useful for IPC; worker_threads is preferred.
 
 ## 5. Health-check / heartbeat protocol
 

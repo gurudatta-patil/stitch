@@ -1,4 +1,4 @@
-# Language Rules — Go (Client / Source)
+# Language Rules - Go (Client / Source)
 
 Go acts as a **source** (parent process), spawning a sidecar and communicating via JSON-RPC over stdio.
 

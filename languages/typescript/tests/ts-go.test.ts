@@ -6,7 +6,7 @@
  * Pre-requisite: `go build -o test-bridge-go` inside the test fixture dir.
  */
 
-// TODO Phase 3+ — implement after ts→python is green
+// TODO Phase 3+ - implement after ts→python is green
 
 describe('ts → go: basic JSON-RPC', () => {
   test('sends a request and receives a matching response', async () => {

@@ -1,4 +1,4 @@
-// node_lookup.go — utility to locate the node executable on the current system.
+// node_lookup.go - utility to locate the node executable on the current system.
 package gobridge
 
 import (

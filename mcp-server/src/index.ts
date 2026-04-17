@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * index.ts — Stitch MCP server (scaffold-only design).
+ * index.ts - Stitch MCP server (scaffold-only design).
  *
  * Two tools:
  *
@@ -13,7 +13,7 @@
  *      work: write files, patch import paths, copy shared helpers, set up
  *      venv / go build / cargo build, update .gitignore.
  *
- * No subprocess is spawned for code generation — Claude Code IS the generator.
+ * No subprocess is spawned for code generation - Claude Code IS the generator.
  */
 
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
@@ -34,7 +34,7 @@ server.tool(
   "Step 1 of 2. Returns the raw template files and slot-filling documentation " +
     "for the requested language pair. After calling this tool, fill in the slots " +
     "yourself using the capability the user described, then call setup_stitch " +
-    "with the completed code. Do NOT call claude --print or spawn any subprocess — " +
+    "with the completed code. Do NOT call claude --print or spawn any subprocess - " +
     "you are the code generator.",
   {
     language_pair: z

@@ -1,4 +1,4 @@
-# Stitch — Rust → Ruby
+# Stitch - Rust → Ruby
 
 Seamless cross-language IPC between a **Rust caller** and a **Ruby sidecar**
 over newline-delimited JSON-RPC 2.0 on stdio.
@@ -154,7 +154,7 @@ No gems required for the sidecar template or test child.
 
 See [`future-scope.md`](future-scope.md) for:
 - JRuby for multi-core concurrency (no GVL)
-- Rutie — Rust↔Ruby FFI as a zero-IPC alternative
+- Rutie - Rust↔Ruby FFI as a zero-IPC alternative
 - gRPC / Cap'n Proto transport upgrade
 - Connection pooling
 - WASM/WASI Ruby

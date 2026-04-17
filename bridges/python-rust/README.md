@@ -81,7 +81,7 @@ from template_client import RustBridge, BridgeError, build_sidecar
 # Build the Rust binary (once per session / CI step)
 binary = build_sidecar("path/to/my-sidecar", release=True)
 
-# Context manager — recommended
+# Context manager - recommended
 with RustBridge(binary) as bridge:
     result = bridge.call("add", {"a": 1, "b": 2})   # -> 3
     echo   = bridge.call("echo", {"msg": "hi"})       # -> "hi"
@@ -98,7 +98,7 @@ with RustBridge(binary) as bridge:
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
-| `binary_path` | `str \| Path` | — | Path to the compiled Rust binary |
+| `binary_path` | `str \| Path` | - | Path to the compiled Rust binary |
 | `args` | `list[str]` | `[]` | Extra CLI arguments for the binary |
 | `startup_timeout` | `float` | `10.0` | Seconds to wait for `{"ready":true}` |
 | `call_timeout` | `float` | `30.0` | Default per-call timeout in seconds |
@@ -132,9 +132,9 @@ fn handle_greet(out: &mut impl Write, req: &Request) -> io::Result<()> {
 
 ### Key rules
 
-1. **Never** call `panic!`, `unwrap()`, or `expect()` inside a handler —
+1. **Never** call `panic!`, `unwrap()`, or `expect()` inside a handler -
    the Python caller will hang until timeout.  Use `write_error` instead.
-2. **Always** flush after every write — `write_success` and `write_error`
+2. **Always** flush after every write - `write_success` and `write_error`
    both call `out.flush()` already.
 3. Send debug output to **stderr** with `eprintln!`, never to stdout.
 
@@ -144,10 +144,10 @@ fn handle_greet(out: &mut impl Write, req: &Request) -> io::Result<()> {
 
 | Method | Params | Returns |
 |---|---|---|
-| `echo` | `{"msg": str}` | `str` — the same string |
-| `add` | `{"a": i64, "b": i64}` | `i64` — sum |
+| `echo` | `{"msg": str}` | `str` - the same string |
+| `add` | `{"a": i64, "b": i64}` | `i64` - sum |
 | `raise_error` | `{"code": i32, "msg": str}` | error with given code/message |
-| `echo_b64` | `{"data": base64_str}` | `base64_str` — round-tripped |
+| `echo_b64` | `{"data": base64_str}` | `base64_str` - round-tripped |
 | `slow` | `{"ms": u64}` | `"done"` after sleeping *ms* milliseconds |
 
 ---

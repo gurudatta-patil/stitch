@@ -1,4 +1,4 @@
-//! Stitch — shared Rust bridge client module.
+//! Stitch - shared Rust bridge client module.
 //!
 //! All Rust bridge clients (rust-python, rust-go, rust-ruby) include this
 //! module (`mod bridge_client; use bridge_client::*;`) rather than duplicating
@@ -50,7 +50,7 @@ pub struct RpcResponse {
 // ─────────────────────────────────────────────────────────────────────────────
 
 /// Shared pending-call map.  Both the caller thread and the reader thread hold
-/// a clone of this `Arc` — the caller inserts, the reader removes and delivers.
+/// a clone of this `Arc` - the caller inserts, the reader removes and delivers.
 pub type PendingMap = Arc<Mutex<HashMap<String, SyncSender<RpcResponse>>>>;
 
 /// Create an empty PendingMap.
@@ -94,7 +94,7 @@ pub fn spawn_reader_thread(
             let v: Value = match serde_json::from_str(trimmed) {
                 Ok(v) => v,
                 Err(e) => {
-                    eprintln!("[bridge_client] malformed JSON: {e} — `{trimmed}`");
+                    eprintln!("[bridge_client] malformed JSON: {e} - `{trimmed}`");
                     continue;
                 }
             };
@@ -129,7 +129,7 @@ pub fn spawn_reader_thread(
             }
         }
 
-        // Stdout closed — drain pending callers with an error.
+        // Stdout closed - drain pending callers with an error.
         if !ready_sent {
             let _ = ready_tx.send(());
         }

@@ -1,4 +1,4 @@
-# Edge Cases — Rust → Ruby Bridge
+# Edge Cases - Rust → Ruby Bridge
 
 ## 1. Ruby cold-start latency
 
@@ -123,8 +123,8 @@ more input.
   and drop it on demand (see `Bridge::close()`).
 - Sequence in `Drop`:
   1. Close stdin (signals EOF to Ruby).
-  2. `child.try_wait()` — if already exited, done.
-  3. `child.kill()` — only if still running after a short grace period.
+  2. `child.try_wait()` - if already exited, done.
+  3. `child.kill()` - only if still running after a short grace period.
 
 ---
 

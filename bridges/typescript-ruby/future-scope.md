@@ -1,4 +1,4 @@
-# Future Scope — TypeScript → Ruby Bridge
+# Future Scope - TypeScript → Ruby Bridge
 
 Ideas and improvements that are out of scope for the initial implementation but
 are worth pursuing as the project matures.
@@ -75,7 +75,7 @@ sidecar handlers.
   the full JRuby path.
 - Account for longer startup time (~1–3 s JVM warm-up); increase the ready
   handshake timeout in the TypeScript client.
-- Some C-extensions have no JRuby equivalent — audit gem dependencies before
+- Some C-extensions have no JRuby equivalent - audit gem dependencies before
   migrating.
 - Signal handling differences: JRuby signal traps work but `Thread#kill` 
   semantics differ slightly.

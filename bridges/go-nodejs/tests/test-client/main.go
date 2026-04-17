@@ -1,4 +1,4 @@
-// main.go — manual smoke-test client for the Go→Node.js bridge.
+// main.go - manual smoke-test client for the Go→Node.js bridge.
 // Run:  go run . ../../tests/test-child.js
 package main
 

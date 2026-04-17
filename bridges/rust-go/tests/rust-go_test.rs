@@ -313,7 +313,7 @@ mod bridge_tests {
         let bin = test_child_bin();
         let mut b = Bridge::spawn(&bin);
 
-        // 128 KB of 0xFF → base64 is ~171 KB — exceeds the Go default 64 KB
+        // 128 KB of 0xFF → base64 is ~171 KB - exceeds the Go default 64 KB
         // scanner buffer if it has not been enlarged.
         let data: Vec<u8> = vec![0xFFu8; 128 * 1024];
         let encoded = base64_encode(&data);

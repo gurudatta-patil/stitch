@@ -1,5 +1,5 @@
 """
-template.sidecar.py — Stitch: Python (target) sidecar template.
+template.sidecar.py - Stitch: Python (target) sidecar template.
 
 HOW TO USE
 ----------
@@ -31,11 +31,11 @@ sys.stdout = sys.stderr        # everything else (print, tracebacks) → stderr
 import logging
 import os
 
-# Silence ALL Python logging — nothing must leak onto the RPC channel.
+# Silence ALL Python logging - nothing must leak onto the RPC channel.
 logging.disable(logging.CRITICAL)
 
 # ---------------------------------------------------------------------------
-# 2. PLACEHOLDER — import your own modules here
+# 2. PLACEHOLDER - import your own modules here
 # ---------------------------------------------------------------------------
 # Example:
 #   import numpy as np
@@ -65,7 +65,7 @@ HANDLERS: dict = {
 }
 
 # ---------------------------------------------------------------------------
-# 4. Entry-point — delegates all boilerplate to the shared sidecar base.
+# 4. Entry-point - delegates all boilerplate to the shared sidecar base.
 # ---------------------------------------------------------------------------
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'shared', 'python_sidecar'))

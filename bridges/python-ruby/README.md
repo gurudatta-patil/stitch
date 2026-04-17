@@ -1,4 +1,4 @@
-# Stitch — Python → Ruby
+# Stitch - Python → Ruby
 
 Seamless cross-language IPC: a Python process spawns a Ruby child and
 communicates with it over **newline-delimited JSON-RPC on stdio**.
@@ -38,7 +38,7 @@ Python (parent)                         Ruby (child)
 ```
 
 All messages are UTF-8, newline-terminated JSON on stdin/stdout.  Neither side
-uses stderr for the protocol — stderr is available for out-of-band logging.
+uses stderr for the protocol - stderr is available for out-of-band logging.
 
 ---
 
@@ -124,7 +124,7 @@ Requirements: Python 3.9+ · Ruby 2.7+ (no gems required for the test child)
 | Rule | Why |
 |------|-----|
 | `$stdout.sync = true` as the **very first line** | Without it Ruby buffers stdout in 8 KB blocks; the Python reader thread hangs indefinitely |
-| Write responses with `$stdout.print(json + "\n"); $stdout.flush` | Explicit flush is redundant when `sync=true` but harmless — keep it for clarity |
+| Write responses with `$stdout.print(json + "\n"); $stdout.flush` | Explicit flush is redundant when `sync=true` but harmless - keep it for clarity |
 | Emit `{"ready":true}` **before** entering the request loop | Python's `__init__` blocks until this line arrives |
 | Exit on stdin EOF | The parent process may die silently; `$stdin.gets` returning `nil` is the signal |
 | Trap `INT` and `TERM` for clean shutdown | Allows `SIGTERM` from `RubyBridge.close()` to be handled gracefully |
@@ -150,7 +150,7 @@ return result
 ### Why `queue.Queue` per call?
 
 Each in-flight call registers a `Queue(maxsize=1)` keyed by its UUID.  The
-reader thread routes responses by ID — concurrent calls from multiple threads
+reader thread routes responses by ID - concurrent calls from multiple threads
 never interfere.
 
 ### Signal handling
@@ -166,16 +166,16 @@ your `finally` block.
 
 See [edge-cases.md](edge-cases.md) for the full list.  The top three:
 
-1. **Never** block the main thread on `proc.stdout.read()` — use the daemon
+1. **Never** block the main thread on `proc.stdout.read()` - use the daemon
    reader thread.
 2. **Always** drain stderr in a background thread; a full stderr pipe will
    block Ruby writes.
-3. `proc.stdout.readline()` returns **bytes** — decode with
+3. `proc.stdout.readline()` returns **bytes** - decode with
    `.decode("utf-8", errors="replace")`.
 
 ---
 
 ## Future ideas
 
-See [future-scope.md](future-scope.md) — highlights include async client,
+See [future-scope.md](future-scope.md) - highlights include async client,
 streaming responses, connection pooling, and MessagePack transport.

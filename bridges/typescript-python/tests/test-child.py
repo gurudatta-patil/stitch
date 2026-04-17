@@ -118,7 +118,7 @@ def main() -> None:
             tb = _traceback.format_exc()
             _send_error(req_id, str(exc), tb)
 
-    # stdin reached EOF — parent closed the pipe or died.
+    # stdin reached EOF - parent closed the pipe or died.
     _os._exit(0)
 
 

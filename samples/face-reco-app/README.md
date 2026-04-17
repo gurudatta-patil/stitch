@@ -1,7 +1,7 @@
 # Stitch · Face Detection App
 
 A TypeScript + Express web app that captures live camera frames and runs face
-detection via a Python sidecar — connected through Stitch.
+detection via a Python sidecar - connected through Stitch.
 
 ```
 Browser (camera) → POST /api/analyze → Express server
@@ -13,7 +13,7 @@ Browser (canvas overlay) ←─────────────────�
 
 ---
 
-## Step 1 — Install Node deps
+## Step 1 - Install Node deps
 
 ```bash
 cd face-reco-app
@@ -22,7 +22,7 @@ npm install
 
 ---
 
-## Step 2 — Register the Stitch MCP server (once, globally)
+## Step 2 - Register the Stitch MCP server (once, globally)
 
 ```bash
 claude mcp add stitch -- npx tsx /path/to/claude-bridge/mcp-server/src/index.ts
@@ -35,7 +35,7 @@ claude mcp list
 
 ---
 
-## Step 3 — Open Claude Code in this folder
+## Step 3 - Open Claude Code in this folder
 
 ```bash
 cd face-reco-app
@@ -44,7 +44,7 @@ claude
 
 ---
 
-## Step 4 — Paste this prompt into Claude Code
+## Step 4 - Paste this prompt into Claude Code
 
 ```
 Use the generate_stitch MCP tool to create a bridge with these details:
@@ -70,17 +70,17 @@ Use the generate_stitch MCP tool to create a bridge with these details:
     - For each detected face (x, y, w, h) return:
         { "x": int(x), "y": int(y), "w": int(w), "h": int(h), "confidence": 1.0 }
     - If no faces detected, return { "faces": [] }
-    - Do NOT import or use any deep-learning model — Haar cascades only.
+    - Do NOT import or use any deep-learning model - Haar cascades only.
 
   dependencies: ["opencv-python-headless", "numpy"]
 
-After generating the bridge, do NOT modify server.ts — it already imports
+After generating the bridge, do NOT modify server.ts - it already imports
 .stitch/bridges/face_detector.js and calls analyzeFrame({ image_b64 }).
 ```
 
 ---
 
-## Step 5 — Start the server
+## Step 5 - Start the server
 
 ```bash
 npm start
@@ -130,7 +130,7 @@ raw   = base64.b64decode(params["image_b64"])
 img   = cv2.imdecode(np.frombuffer(raw, np.uint8), cv2.IMREAD_COLOR)
 ```
 
-No temp files, no HTTP multipart — just a plain JSON field.
+No temp files, no HTTP multipart - just a plain JSON field.
 
 ---
 

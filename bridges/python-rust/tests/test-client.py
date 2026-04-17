@@ -1,5 +1,5 @@
 """
-test-client.py — manual smoke-test script that spawns the compiled test-child
+test-client.py - manual smoke-test script that spawns the compiled test-child
 binary and exercises every method.
 
 Run:

@@ -4,7 +4,7 @@
  * Run: npx vitest run languages/typescript/tests/ts-ruby.test.ts
  */
 
-// TODO Phase 2+ — implement after ts→python is green
+// TODO Phase 2+ - implement after ts→python is green
 
 describe('ts → ruby: basic JSON-RPC', () => {
   test('sends a request and receives a matching response', async () => {

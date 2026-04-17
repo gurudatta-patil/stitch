@@ -1,5 +1,5 @@
 /**
- * Stitch — TypeScript → Ruby integration tests
+ * Stitch - TypeScript → Ruby integration tests
  * Run with: vitest run
  */
 
@@ -112,7 +112,7 @@ describe('TypeScript → Ruby bridge', () => {
 
   // ── echo ──────────────────────────────────────────────────────────────────
 
-  it('echo — round-trip params unchanged', async () => {
+  it('echo - round-trip params unchanged', async () => {
     const params = { greeting: 'hello', count: 42, nested: { ok: true } };
     const result = await bridge.call('echo', params);
     expect(result).toEqual(params);
@@ -120,19 +120,19 @@ describe('TypeScript → Ruby bridge', () => {
 
   // ── add ───────────────────────────────────────────────────────────────────
 
-  it('add — returns correct sum for integers', async () => {
+  it('add - returns correct sum for integers', async () => {
     const result = await bridge.call('add', { a: 17, b: 25 });
     expect(result).toEqual({ sum: 42 });
   });
 
-  it('add — returns correct sum for floats', async () => {
+  it('add - returns correct sum for floats', async () => {
     const result = await bridge.call('add', { a: 1.5, b: 2.5 });
     expect((result as { sum: number }).sum).toBeCloseTo(4.0);
   });
 
   // ── concurrency ───────────────────────────────────────────────────────────
 
-  it('concurrency — 10 in-flight calls resolve independently', async () => {
+  it('concurrency - 10 in-flight calls resolve independently', async () => {
     const calls = Array.from({ length: 10 }, (_, i) =>
       bridge.call('add', { a: i, b: i })
     );
@@ -144,7 +144,7 @@ describe('TypeScript → Ruby bridge', () => {
 
   // ── error bubbling ────────────────────────────────────────────────────────
 
-  it('raise_error — rejects with message and backtrace', async () => {
+  it('raise_error - rejects with message and backtrace', async () => {
     await expect(
       bridge.call('raise_error', { message: 'boom from ruby' })
     ).rejects.toSatisfy((err: Error & { backtrace?: string }) => {
@@ -155,7 +155,7 @@ describe('TypeScript → Ruby bridge', () => {
     });
   });
 
-  it('raise_error — unknown method bubbles as error, not crash', async () => {
+  it('raise_error - unknown method bubbles as error, not crash', async () => {
     await expect(
       bridge.call('no_such_method', {})
     ).rejects.toThrow(/Unknown method/);
@@ -163,7 +163,7 @@ describe('TypeScript → Ruby bridge', () => {
 
   // ── Base64 round-trip ─────────────────────────────────────────────────────
 
-  it('echo_b64 — ASCII string round-trips correctly', async () => {
+  it('echo_b64 - ASCII string round-trips correctly', async () => {
     const input = 'Stitch rocks!';
     const result = await bridge.call('echo_b64', { input }) as {
       encoded: string;
@@ -174,7 +174,7 @@ describe('TypeScript → Ruby bridge', () => {
     expect(Buffer.from(result.encoded, 'base64').toString('utf8')).toBe(input);
   });
 
-  it('echo_b64 — binary-safe content (null bytes, high bytes)', async () => {
+  it('echo_b64 - binary-safe content (null bytes, high bytes)', async () => {
     // Pass a pre-encoded value and ensure it decodes back round-trip
     const input = '\x00\xFF\xFE binary \x01\x02\x03';
     const result = await bridge.call('echo_b64', { input }) as {
@@ -186,7 +186,7 @@ describe('TypeScript → Ruby bridge', () => {
 
   // ── slow (timing) ─────────────────────────────────────────────────────────
 
-  it('slow — resolves after delay', async () => {
+  it('slow - resolves after delay', async () => {
     const before = Date.now();
     const result = await bridge.call('slow', { ms: 100 });
     const elapsed = Date.now() - before;
@@ -194,7 +194,7 @@ describe('TypeScript → Ruby bridge', () => {
     expect(elapsed).toBeGreaterThanOrEqual(90);
   });
 
-  it('slow — multiple slow calls run concurrently (Ruby I/O threads)', async () => {
+  it('slow - multiple slow calls run concurrently (Ruby I/O threads)', async () => {
     // Each call sleeps 200 ms; if serialised they'd take ~600 ms total.
     // Ruby releases the GVL during sleep, so concurrent I/O should be fast.
     const before = Date.now();
@@ -210,7 +210,7 @@ describe('TypeScript → Ruby bridge', () => {
 
   // ── stdin-EOF defence ─────────────────────────────────────────────────────
 
-  it('stdin-EOF — sidecar exits when stdin is closed', async () => {
+  it('stdin-EOF - sidecar exits when stdin is closed', async () => {
     // Spin up a fresh sidecar, close its stdin, and confirm it exits.
     const child = spawn('ruby', [SIDECAR], { stdio: ['pipe', 'pipe', 'inherit'] });
     let readyReceived = false;

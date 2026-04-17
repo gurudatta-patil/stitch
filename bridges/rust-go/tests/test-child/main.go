@@ -195,7 +195,7 @@ func installSignalHandler() {
 	signal.Notify(ch, syscall.SIGINT, syscall.SIGTERM)
 	go func() {
 		sig := <-ch
-		fmt.Fprintf(os.Stderr, "[test-child] signal %v — exiting\n", sig)
+		fmt.Fprintf(os.Stderr, "[test-child] signal %v - exiting\n", sig)
 		os.Exit(0)
 	}()
 }
@@ -238,6 +238,6 @@ func main() {
 		os.Exit(1)
 	}
 
-	fmt.Fprintln(os.Stderr, "[test-child] stdin EOF — exiting cleanly")
+	fmt.Fprintln(os.Stderr, "[test-child] stdin EOF - exiting cleanly")
 	os.Exit(0)
 }

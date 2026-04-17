@@ -65,7 +65,7 @@ impl Bridge {
             .stdout(Stdio::piped())
             .stderr(Stdio::inherit())
             .spawn()
-            .expect("failed to spawn ruby — is ruby in PATH?");
+            .expect("failed to spawn ruby - is ruby in PATH?");
 
         let stdout = child.stdout.take().unwrap();
         let stdin = child.stdin.take().unwrap();
@@ -160,7 +160,7 @@ macro_rules! pass {
 
 macro_rules! fail {
     ($name:expr, $msg:expr) => {{
-        eprintln!("  FAIL  {} — {}", $name, $msg);
+        eprintln!("  FAIL  {} - {}", $name, $msg);
         std::process::exit(1);
     }};
 }
@@ -198,9 +198,9 @@ fn test_echo_b64(b: &mut Bridge) {
     let input = "Stitch rocks 🦀💎";
     let encoded = {
         use std::fmt::Write as FW;
-        // use base64 via Ruby to encode — here we just replicate it in Rust
+        // use base64 via Ruby to encode - here we just replicate it in Rust
         let bytes = input.as_bytes();
-        // simple base64 using the alphabet — we rely on the stdlib in tests
+        // simple base64 using the alphabet - we rely on the stdlib in tests
         let encoded = base64_encode(bytes);
         encoded
     };

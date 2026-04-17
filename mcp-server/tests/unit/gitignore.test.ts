@@ -39,7 +39,7 @@ describe("ensureGitignore", () => {
     expect(content).toContain(".stitch/");
   });
 
-  test("is idempotent — calling twice does not duplicate entries", () => {
+  test("is idempotent - calling twice does not duplicate entries", () => {
     ensureGitignore(dir);
     ensureGitignore(dir);
 

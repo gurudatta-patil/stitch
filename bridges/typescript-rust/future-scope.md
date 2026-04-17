@@ -1,4 +1,4 @@
-# Future Scope — TypeScript → Rust Bridge
+# Future Scope - TypeScript → Rust Bridge
 
 ## 1. Async Rust with Tokio
 
@@ -56,7 +56,7 @@ spawn overhead entirely and removes platform/architecture concerns.  Trade-offs:
 
 - WASM does not have native thread support (WASI threads are experimental).
 - Some system APIs (sockets, mmap) are unavailable or sandboxed.
-- Start-up time for a WASM module is typically 1–10 ms — comparable to a
+- Start-up time for a WASM module is typically 1–10 ms - comparable to a
   native binary, but without the cross-compilation complexity.
 
 Useful for pure-compute kernels (hashing, compression, parsing) that do not

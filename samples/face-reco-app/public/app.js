@@ -1,5 +1,5 @@
 /**
- * app.js — browser-side camera capture + face overlay.
+ * app.js - browser-side camera capture + face overlay.
  *
  * Flow:
  *   1. getUserMedia → <video>
@@ -118,7 +118,7 @@
       const data = await res.json();
 
       if (data.stub) {
-        setStatus("⚠ Bridge not loaded — run Stitch (see README)", "error");
+        setStatus("⚠ Bridge not loaded - run Stitch (see README)", "error");
         drawFaces([]);
         return;
       }
@@ -146,7 +146,7 @@
 
       btnStart.disabled = true;
       btnStop.disabled  = false;
-      setStatus("Camera active — connecting to Python bridge…");
+      setStatus("Camera active - connecting to Python bridge…");
 
       timerId    = setInterval(tick, INTERVAL_MS);
       fpsInterval = setInterval(() => {

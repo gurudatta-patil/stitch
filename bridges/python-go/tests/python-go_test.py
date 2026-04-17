@@ -1,5 +1,5 @@
 """
-python-go_test.py — pytest test suite for the Python → Go bridge.
+python-go_test.py - pytest test suite for the Python → Go bridge.
 
 Prerequisites
 -------------
@@ -64,7 +64,7 @@ def _require_binary() -> None:
 
 @pytest.fixture(scope="module")
 def bridge() -> GoBridge:
-    """Module-scoped bridge — started once, shared across tests."""
+    """Module-scoped bridge - started once, shared across tests."""
     _require_binary()
     b = GoBridge(BINARY)
     b.start()
@@ -111,7 +111,7 @@ class TestRoundTrip:
         assert base64.b64decode(result) == original
 
     def test_echo_b64_large_payload(self, bridge: GoBridge) -> None:
-        """256 KiB payload — tests scanner buffer enlargement."""
+        """256 KiB payload - tests scanner buffer enlargement."""
         original = os.urandom(256 * 1024)
         encoded = base64.b64encode(original).decode()
         result = bridge.call("echo_b64", {"data": encoded})

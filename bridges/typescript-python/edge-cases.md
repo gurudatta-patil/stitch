@@ -7,7 +7,7 @@ This document catalogues issues that are **specific to bridging TypeScript (Node
 ## 1. Python GIL and Concurrent Requests
 
 ### The issue
-Python's Global Interpreter Lock (GIL) means only one OS thread executes Python bytecode at a time. If the sidecar's main loop is CPU-bound (e.g. numpy matrix maths, pure-Python parsing), concurrent requests from the TypeScript parent **do not actually run in parallel** — they are serialised by the GIL.
+Python's Global Interpreter Lock (GIL) means only one OS thread executes Python bytecode at a time. If the sidecar's main loop is CPU-bound (e.g. numpy matrix maths, pure-Python parsing), concurrent requests from the TypeScript parent **do not actually run in parallel** - they are serialised by the GIL.
 
 ### When it matters
 - CPU-heavy handlers (image processing, data transforms).
@@ -16,7 +16,7 @@ Python's Global Interpreter Lock (GIL) means only one OS thread executes Python 
 ### Mitigations
 - Use `concurrent.futures.ProcessPoolExecutor` to offload CPU work to separate processes (each has its own GIL).
 - Use `multiprocessing.pool.ThreadPool` with C-extension functions that release the GIL.
-- Restructure the sidecar as an asyncio event loop (see Future Scope) — `asyncio.to_thread` will still hit the GIL for pure-Python work, but composes cleanly with async I/O.
+- Restructure the sidecar as an asyncio event loop (see Future Scope) - `asyncio.to_thread` will still hit the GIL for pure-Python work, but composes cleanly with async I/O.
 - For the simple synchronous template, document the GIL limitation explicitly so callers don't expect true parallelism.
 
 ---
@@ -75,7 +75,7 @@ For a round-trip both sides pay the cost twice.
 | 64 KB | ~88 KB | < 5 ms |
 | 1 MB | ~1.4 MB | ~15–30 ms |
 | 10 MB | ~14 MB | ~150–300 ms |
-| 100 MB | ~140 MB | > 1 s — avoid |
+| 100 MB | ~140 MB | > 1 s - avoid |
 
 ### Mitigations
 - Keep individual payloads below 1 MB per call; batch processing server-side.

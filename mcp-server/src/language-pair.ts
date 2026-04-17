@@ -1,5 +1,5 @@
 /**
- * language-pair.ts — per-pair configuration for all 13 Stitch pairs.
+ * language-pair.ts - per-pair configuration for all 13 Stitch pairs.
  *
  * Each PairDef describes:
  *   - which template files to read for the client and sidecar
@@ -150,7 +150,7 @@ function setupPythonClient(repoRoot: string, sharedDir: string): void {
   );
 }
 
-/** Rust bridge_client is inlined as a mod in src/main.rs — nothing to copy. */
+/** Rust bridge_client is inlined as a mod in src/main.rs - nothing to copy. */
 function setupRustClient(_repoRoot: string, _sharedDir: string): void {}
 
 /**
@@ -215,7 +215,7 @@ async function setupNodeJsSidecar(
   _bridgeName: string,
   deps: string[],
 ): Promise<string> {
-  // Node.js sidecar uses built-in readline — no shared helper to copy.
+  // Node.js sidecar uses built-in readline - no shared helper to copy.
   if (deps.length > 0) {
     // If the user lists npm packages, install them via a temporary package.json.
     // In practice most Node sidecars need no external deps.
@@ -350,7 +350,7 @@ export function patchRubySidecarPath(code: string): string {
 // ── Per-pair slot documentation ───────────────────────────────────────────────
 
 const PY_SIDECAR_SLOTS = `
-PYTHON sidecar — fill ONLY these three slot comments:
+PYTHON sidecar - fill ONLY these three slot comments:
   # [CLAUDE_IMPORTS_HERE]             → import statements (AFTER stdout redirect)
   # [CLAUDE_HANDLER_FUNCTIONS_HERE]   → one def per method, takes params:dict, returns dict
   # [CLAUDE_LOGIC_ROUTING_HERE]       → "method_name": handle_fn  entries in HANDLERS dict
@@ -361,7 +361,7 @@ Non-negotiable Python constraints:
   • All third-party imports come AFTER the stdout redirect.`.trim();
 
 const TS_CLIENT_SLOTS = `
-TYPESCRIPT client — fill ONLY these two slot comments:
+TYPESCRIPT client - fill ONLY these two slot comments:
   // [CLAUDE_TYPE_DEFINITIONS_HERE]   → TypeScript interfaces / type aliases
   // [CLAUDE_PUBLIC_METHODS_HERE]     → public async methods that call this.call<T>(method, params)
 
@@ -370,16 +370,16 @@ Non-negotiable TypeScript constraints:
   • Keep killChild() in destroy(). Keep this.call() signature unchanged.`.trim();
 
 const RUBY_SIDECAR_SLOTS = `
-RUBY sidecar — fill inside the HANDLERS hash using the slot marker as a guide:
+RUBY sidecar - fill inside the HANDLERS hash using the slot marker as a guide:
   # [CLAUDE_HANDLERS]  →  'method_name' => lambda { |params| ... }  entries
 
 Non-negotiable Ruby constraints:
   • Keep require_relative line for sidecar_base unchanged.
   • Keep run_sidecar(HANDLERS) at the end.
-  • NEVER use puts or $stdout.write — sidecar_base handles all output.`.trim();
+  • NEVER use puts or $stdout.write - sidecar_base handles all output.`.trim();
 
 const GO_SIDECAR_SLOTS = `
-GO sidecar — fill ONLY the TODO sections:
+GO sidecar - fill ONLY the TODO sections:
   // TODO: implement your methods here  →  case "method_name": branches in dispatch()
   // Also add top-level handler functions above dispatch().
 
@@ -389,7 +389,7 @@ Non-negotiable Go constraints:
   • Use sidecar.SidecarError{Code: -32602, Message: ...} for errors.`.trim();
 
 const RUST_SIDECAR_SLOTS = `
-RUST sidecar — fill ONLY these slot comments:
+RUST sidecar - fill ONLY these slot comments:
   // [CLAUDE_IMPORT_HANDLERS]  →  use statements for your handler modules
   // [CLAUDE_ADD_METHODS]      →  "method_name" => handler logic in the match arm
   // [CLAUDE_HANDLER_IMPLS]    →  fn definitions below main()
@@ -400,20 +400,20 @@ Non-negotiable Rust constraints:
   • Deserialise params with serde_json::from_value.`.trim();
 
 const JS_SIDECAR_SLOTS = `
-JAVASCRIPT (Node.js) sidecar — fill inside the handlers object:
+JAVASCRIPT (Node.js) sidecar - fill inside the handlers object:
   echo/add examples → replace with your actual method handlers
 
 Non-negotiable Node.js constraints:
   • Keep process.stdout.write(JSON.stringify({ ready: true }) + '\\n') as the first output line.
   • Keep readline.createInterface on process.stdin and the rl.on('close') exit unchanged.
-  • NEVER use console.log() — all output must go through process.stdout.write.`.trim();
+  • NEVER use console.log() - all output must go through process.stdout.write.`.trim();
 
 const RUBY_CLIENT_SLOTS = `
-(Python/TypeScript client — see CLIENT template above)
+(Python/TypeScript client - see CLIENT template above)
 Ruby is the sidecar language for this pair; see RUBY sidecar slots.`.trim();
 
 const GO_CLIENT_SLOTS = `
-GO client — fill the TODO sections in template.client.go:
+GO client - fill the TODO sections in template.client.go:
   SIDECAR_SCRIPT / PYTHON_BIN constants → replace with actual values
   Add your own bridge.Call("method", params) calls in main().
 
@@ -422,11 +422,11 @@ Non-negotiable Go constraints:
   • Keep bridge.Close() cleanup in main().`.trim();
 
 const PY_CLIENT_SLOTS = `
-PYTHON client — no slot markers needed. The generated class already works.
+PYTHON client - no slot markers needed. The generated class already works.
   Just add any extra methods to the bridge class if needed.`.trim();
 
 const RUST_CLIENT_SLOTS = `
-RUST client — fill ONLY these slot markers in src/main.rs:
+RUST client - fill ONLY these slot markers in src/main.rs:
   [CLAUDE_SIDECAR_PATH]   →  path to the sidecar binary/script
   [CLAUDE_METHOD]         →  method name to call in demo
   [CLAUDE_PARAMS]         →  JSON params for the demo call

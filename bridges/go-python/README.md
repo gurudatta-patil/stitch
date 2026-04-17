@@ -1,4 +1,4 @@
-# Stitch — Go → Python
+# Stitch - Go → Python
 
 Seamless cross-language IPC: a Go parent process communicates with a Python
 child process over newline-delimited JSON-RPC on stdin/stdout.
@@ -78,8 +78,8 @@ go get github.com/google/uuid
 
 | Path | Description |
 |------|-------------|
-| `template.client.go` | Go bridge client template — copy and customise |
-| `template.sidecar.py` | Python sidecar template — copy and customise |
+| `template.client.go` | Go bridge client template - copy and customise |
+| `template.sidecar.py` | Python sidecar template - copy and customise |
 | `tests/test-child.py` | Real Python test sidecar (echo, add, raise_error, echo_b64, slow) |
 | `tests/go-python_test.go` | Go integration tests (`go test -v`) |
 | `tests/go.mod` | Go module file for the test suite |
@@ -140,7 +140,7 @@ included in `error.Error()` so it appears in Go logs.
 
 ### Shutdown sequence
 
-1. `bridge.Close()` closes the stdin pipe — Python's watchdog detects EOF and
+1. `bridge.Close()` closes the stdin pipe - Python's watchdog detects EOF and
    calls `os._exit(0)`.
 2. The `done` channel is closed to unblock the `readLoop` goroutine.
 3. `killChild()` calls `SIGTERM`, waits up to 2 s, then `SIGKILL`.
@@ -150,6 +150,6 @@ included in `error.Error()` so it appears in Go logs.
 
 ## See Also
 
-- `edge-cases.md` — scanner limits, cold start, JSON type coercion, Windows
+- `edge-cases.md` - scanner limits, cold start, JSON type coercion, Windows
   portability, goroutine leaks, pipe close order.
-- `future-scope.md` — `CallContext`, streaming, connection pooling, Protobuf.
+- `future-scope.md` - `CallContext`, streaming, connection pooling, Protobuf.

@@ -1,4 +1,4 @@
-// go-python_test.go — Stitch integration tests (Go → Python).
+// go-python_test.go - Stitch integration tests (Go → Python).
 //
 // Run from the tests/ directory:
 //
@@ -27,7 +27,7 @@ import (
 )
 
 // ---------------------------------------------------------------------------
-// Embedded bridge (copy of template — avoids import complexity in test pkg)
+// Embedded bridge (copy of template - avoids import complexity in test pkg)
 // ---------------------------------------------------------------------------
 
 type rpcRequest struct {
@@ -386,7 +386,7 @@ func TestStdinEOFKillsChild(t *testing.T) {
 		t.Fatal("child has invalid PID")
 	}
 
-	// Close stdin — the Python watchdog should detect EOF and call os._exit(0).
+	// Close stdin - the Python watchdog should detect EOF and call os._exit(0).
 	_ = b.stdin.Close()
 	close(b.done)
 
@@ -414,7 +414,7 @@ func TestStdinEOFKillsChild(t *testing.T) {
 	case <-done:
 		// Good.
 	case <-time.After(5 * time.Second):
-		t.Error("killChild timed out — child may not have exited on stdin EOF")
+		t.Error("killChild timed out - child may not have exited on stdin EOF")
 	}
 }
 

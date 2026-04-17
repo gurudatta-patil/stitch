@@ -102,7 +102,7 @@ uses only `json` and `base64`, both part of Ruby's standard library.
 
 - The sidecar inherits the parent process's environment. Avoid passing secrets
   via environment variables unless your threat model allows it.
-- The sidecar's stdin is connected directly to the TypeScript parent — do not
+- The sidecar's stdin is connected directly to the TypeScript parent - do not
   expose the child process's stdin to untrusted input.
 - Error responses include `e.full_message` (which contains a backtrace). Strip
   backtraces before forwarding errors to untrusted clients in production.

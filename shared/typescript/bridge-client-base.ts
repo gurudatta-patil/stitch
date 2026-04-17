@@ -1,5 +1,5 @@
 /**
- * Stitch — shared TypeScript client base.
+ * Stitch - shared TypeScript client base.
  *
  * Exports the cross-platform kill helper, the pending-call map factory, and
  * the abstract BridgeClientBase class that all TS bridge clients extend.
@@ -122,7 +122,7 @@ export abstract class BridgeClientBase {
 
   /**
    * Register process-level cleanup hooks (exit, SIGINT, SIGTERM, uncaughtException).
-   * Safe to call multiple times — only registers once.
+   * Safe to call multiple times - only registers once.
    */
   protected registerCleanupHooks(kill: () => void): void {
     if (this.cleanupRegistered) return;

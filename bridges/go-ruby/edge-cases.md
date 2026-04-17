@@ -39,7 +39,7 @@ the dependency graph before any user code runs, adding ~300–700 ms.
 
 MRI Ruby's Global VM Lock (GVL, also called GIL) prevents true parallel
 execution of Ruby bytecode.  However, the GVL is **released during blocking
-IO** — including `$stdin.read`, `sleep`, and most network operations.
+IO** - including `$stdin.read`, `sleep`, and most network operations.
 
 Practical implications for this bridge:
 - The sidecar processes one JSON-RPC request at a time (the `$stdin.each_line`
@@ -47,11 +47,11 @@ Practical implications for this bridge:
 - Concurrent `Call()` invocations from Go are multiplexed by the Go client; the
   sidecar serialises them naturally through the loop.
 - If a handler does blocking IO (HTTP requests, database queries, file reads),
-  the GVL is released and other threads can run — but the RPC loop is blocked
+  the GVL is released and other threads can run - but the RPC loop is blocked
   until that handler returns.
 - **True handler-level concurrency requires either JRuby or a multi-threaded
   dispatcher in the sidecar** (dispatch each request to a thread-pool and write
-  responses asynchronously — see `future-scope.md`).
+  responses asynchronously - see `future-scope.md`).
 
 ---
 
@@ -72,7 +72,7 @@ installed:
   users configure the path via an environment variable (e.g. `RUBY_BIN`) and
   fall back to `"ruby"` on PATH.
 - On Windows, `exec.Command("ruby", ...)` requires `ruby.exe` to be on `%PATH%`
-  — verify this in your MCP setup documentation.
+  - verify this in your MCP setup documentation.
 - Line endings: use `\n` (LF) for the newline delimiter even on Windows; the Go
   client and Ruby sidecar both write LF.  Do **not** rely on `\r\n`.
 
@@ -119,7 +119,7 @@ The sidecar template uses `rescue => e`, which is equivalent to
 
 - It will NOT catch `SystemExit` or `SignalException`, so `Signal.trap` and
   `exit` still work correctly.
-- It will NOT catch `NoMemoryError` or `Interrupt` — these should propagate and
+- It will NOT catch `NoMemoryError` or `Interrupt` - these should propagate and
   kill the process rather than returning an RPC error.
 - If you call `rescue Exception => e` you risk swallowing `SystemExit` and
   preventing clean shutdown.

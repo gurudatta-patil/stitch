@@ -1,5 +1,5 @@
 /**
- * tool.ts — two MCP tool handlers for Stitch (scaffold-only design).
+ * tool.ts - two MCP tool handlers for Stitch (scaffold-only design).
  *
  * Workflow:
  *   1. Claude Code calls get_stitch_templates(language_pair)

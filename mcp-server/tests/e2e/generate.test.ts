@@ -6,7 +6,7 @@
  *
  * What this test does:
  *   1. Calls handleGetTemplates to get the real typescript-python templates.
- *   2. Uses a pre-written Python sidecar (no Claude call needed — the MCP no
+ *   2. Uses a pre-written Python sidecar (no Claude call needed - the MCP no
  *      longer does code generation internally).
  *   3. Calls handleSetupStitch to scaffold: writes files, copies shared
  *      helpers, creates a real venv, installs no deps.
@@ -16,7 +16,7 @@
  *   7. Deletes the temp dir.
  *
  * NOTE: if you also want to test that Claude Code fills in templates correctly,
- * set STITCH_CLAUDE_E2E=1 in addition — that sub-test calls claude --print.
+ * set STITCH_CLAUDE_E2E=1 in addition - that sub-test calls claude --print.
  */
 
 import { describe, test, expect, beforeAll, afterAll } from "vitest";
@@ -54,7 +54,7 @@ import sys as _sys
 _rpc_out = _sys.stdout
 _sys.stdout = _sys.stderr
 
-# [CLAUDE_IMPORTS_HERE] — stdlib only
+# [CLAUDE_IMPORTS_HERE] - stdlib only
 
 def handle_echo(params: dict) -> dict:
     return params

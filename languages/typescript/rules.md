@@ -1,4 +1,4 @@
-# Language Rules — TypeScript (Client / Source)
+# Language Rules - TypeScript (Client / Source)
 
 TypeScript is the **source** (parent process). It spawns the target sidecar and provides a typed async API.
 
@@ -10,7 +10,7 @@ TypeScript is the **source** (parent process). It spawns the target sidecar and 
 |---------|------|
 | Runtime | Node.js ≥ 18 (required for `crypto.randomUUID()` without import) |
 | Spawn mode | `child_process.spawn` with `detached: false` |
-| stdio | `['pipe', 'pipe', 'pipe']` — all three piped. Never `'inherit'` for stdin or stdout; it breaks the EOF watchdog. |
+| stdio | `['pipe', 'pipe', 'pipe']` - all three piped. Never `'inherit'` for stdin or stdout; it breaks the EOF watchdog. |
 | Path resolution | Always use `path.join` + `os.platform()` check. Never string-concat paths. |
 
 ---
@@ -25,7 +25,7 @@ TypeScript is the **source** (parent process). It spawns the target sidecar and 
 
 ## Shutdown / Signal Rules
 
-All four hooks are **mandatory** in every generated client. Use the `killChild` helper — not a bare `proc.kill()` — for cross-platform safety:
+All four hooks are **mandatory** in every generated client. Use the `killChild` helper - not a bare `proc.kill()` - for cross-platform safety:
 
 ```ts
 function killChild(proc: ChildProcess): void {
@@ -48,7 +48,7 @@ process.on('uncaughtException', (e) => { kill(); throw e; });
 ```
 
 - `SIGINT` = user hits **Ctrl+C**. Child must die before Node exits.
-- `.unref()` on the escalation timer is mandatory — without it a dying process hangs for 2 s.
+- `.unref()` on the escalation timer is mandatory - without it a dying process hangs for 2 s.
 - On Windows, `SIGTERM` is not a real signal; `proc.kill()` with no argument calls `TerminateProcess` which is instant.
 
 ---
@@ -76,7 +76,7 @@ child.stdout.on('data', (chunk: Buffer) => {
 
 ## ID Strategy
 
-- Use `randomUUID()` from Node's built-in `crypto` module — **not** an incrementing counter.
+- Use `randomUUID()` from Node's built-in `crypto` module - **not** an incrementing counter.
 - Counter IDs are fine for sequential calls but silently corrupt results under concurrency.
 - Store pending calls in `Map<string, {resolve, reject}>` keyed by UUID.
 - On `error` key in response: reject with `new Error(msg.error.message)` and attach `traceback` as a property.

@@ -1,4 +1,4 @@
-# Edge Cases — Python → Go Bridge
+# Edge Cases - Python → Go Bridge
 
 This document captures Python-to-Go-specific edge cases that implementors and
 contributors must be aware of.
@@ -10,7 +10,7 @@ contributors must be aware of.
 Go binaries start in **< 10 ms** on modern hardware, far faster than a typical
 Python interpreter.  The practical danger is the opposite: a Python caller that
 issues its first `call()` before `start()` returns.  `GoBridge.start()` blocks
-until `{"ready":true}` is received, so this is safe — but callers must not
+until `{"ready":true}` is received, so this is safe - but callers must not
 bypass `start()` (or the context manager `__enter__`).
 
 ---
@@ -35,7 +35,7 @@ instead.
 
 ---
 
-## 3. Go's strict type system — JSON floats and `json.Number`
+## 3. Go's strict type system - JSON floats and `json.Number`
 
 Go's default JSON decoder maps all JSON numbers to `float64`, which can lose
 precision for large integers (> 2^53).  Use `json.Number` for numeric fields
@@ -55,7 +55,7 @@ the Go side.
 
 ---
 
-## 4. Compile step — `GoBridge.build()` must run before first use
+## 4. Compile step - `GoBridge.build()` must run before first use
 
 Unlike interpreted languages, the Go sidecar must be compiled before it can be
 spawned.  `GoBridge.build(source_dir)` is a static helper that shells out to
@@ -88,7 +88,7 @@ On Windows:
 
 ---
 
-## 6. Goroutine cleanup — reader goroutine exits when stdin pipe closes
+## 6. Goroutine cleanup - reader goroutine exits when stdin pipe closes
 
 The Go sidecar's main goroutine blocks on `scanner.Scan()`.  When Python closes
 the stdin pipe (`proc.stdin.close()`), `Scan()` returns `false` and `main()`
@@ -149,6 +149,6 @@ unique within the window of outstanding requests, not globally.
 
 Newline-delimited JSON assumes each JSON object fits on a single line.  Neither
 Python's `json.dumps` nor Go's `json.Marshal` emit embedded newlines by default
-— but if you ever pretty-print on one side, the other side will misparse.
+- but if you ever pretty-print on one side, the other side will misparse.
 Always use compact serialisation (Python: `separators=(',', ':')`, Go: default
 `json.Marshal`).

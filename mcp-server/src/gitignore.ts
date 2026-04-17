@@ -1,5 +1,5 @@
 /**
- * gitignore.ts — inject Stitch output paths into the project .gitignore.
+ * gitignore.ts - inject Stitch output paths into the project .gitignore.
  */
 
 import { existsSync, readFileSync, writeFileSync } from "fs";
@@ -12,7 +12,7 @@ const MANAGED_ENTRIES = [".stitch/", ".stitch/bridges/"];
 
 /**
  * Ensure `.stitch/` paths are present in `<projectRoot>/.gitignore`.
- * Idempotent — calling it multiple times is safe.
+ * Idempotent - calling it multiple times is safe.
  */
 export function ensureGitignore(projectRoot: string): void {
   const gitignorePath = path.join(projectRoot, ".gitignore");

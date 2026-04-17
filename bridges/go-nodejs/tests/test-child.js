@@ -1,11 +1,11 @@
-// test-child.js — real Node.js sidecar used by the Go test suite.
+// test-child.js - real Node.js sidecar used by the Go test suite.
 //
 // Methods:
-//   echo        — returns params unchanged
-//   add         — {a, b} → {sum}
-//   raise_error — always returns a JSON-RPC error
-//   echo_b64    — decodes a base-64 string and re-encodes it (Buffer round-trip)
-//   slow        — waits `ms` milliseconds then returns {tag, ms}
+//   echo        - returns params unchanged
+//   add         - {a, b} → {sum}
+//   raise_error - always returns a JSON-RPC error
+//   echo_b64    - decodes a base-64 string and re-encodes it (Buffer round-trip)
+//   slow        - waits `ms` milliseconds then returns {tag, ms}
 'use strict';
 
 const readline = require('readline');

@@ -1,4 +1,4 @@
-# Future Scope — Rust → Ruby Bridge
+# Future Scope - Rust → Ruby Bridge
 
 ## JRuby for true multi-core concurrency
 
@@ -30,7 +30,7 @@ machine-learning inference via a Java library).
 
 ---
 
-## Rutie — Rust ↔ Ruby FFI as a zero-IPC alternative
+## Rutie - Rust ↔ Ruby FFI as a zero-IPC alternative
 
 **Motivation.** For use cases where process isolation is not required, loading
 the Ruby VM directly inside the Rust process eliminates all IPC overhead:

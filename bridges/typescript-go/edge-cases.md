@@ -25,12 +25,12 @@ GOOS=linux GOARCH=amd64 go build -o bridge-linux-amd64 .
 Go binaries start almost instantly because there is no interpreter to
 initialise.  The `{"ready":true}` handshake is therefore typically received
 within 5–20 ms of spawning, making Go an excellent choice for latency-sensitive
-sidecars.  Do not assume a long startup grace period in tests — the ready
+sidecars.  Do not assume a long startup grace period in tests - the ready
 timeout can be set as low as 2 s.
 
 ---
 
-## 3. bufio.Scanner default 64 KB line limit — increase for large payloads
+## 3. bufio.Scanner default 64 KB line limit - increase for large payloads
 
 `bufio.NewScanner` uses a 64 KB internal buffer.  A single JSON-RPC line that
 exceeds this limit will cause `scanner.Scan()` to return `false` and
@@ -73,7 +73,7 @@ n, _ := raw["count"].Int64()
 ## 5. Goroutine leak if channel not drained on exit
 
 If you launch goroutines that write to unbuffered channels but the receiver
-exits early (e.g., on signal), those goroutines will block forever — a
+exits early (e.g., on signal), those goroutines will block forever - a
 goroutine leak.  Mitigate by:
 
 - Using buffered channels with capacity equal to the number of writers.
@@ -92,7 +92,7 @@ go func() {
 
 ---
 
-## 6. Windows: no SIGTERM — use SIGINT or os/signal
+## 6. Windows: no SIGTERM - use SIGINT or os/signal
 
 On Windows, `syscall.SIGTERM` is not delivered by the OS to child processes.
 `os/signal.Notify` will still register the signal without error, but it will
@@ -121,7 +121,7 @@ Prefer pure-Go alternatives:
 |----------------------|-----------------------------|
 | `github.com/mattn/go-sqlite3` | `modernc.org/sqlite` |
 | `github.com/lib/pq` (some builds) | `github.com/jackc/pgx/v5` |
-| `github.com/go-gl/*` | N/A — use a server-side renderer |
+| `github.com/go-gl/*` | N/A - use a server-side renderer |
 
 Verify your build is CGo-free:
 

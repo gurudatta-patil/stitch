@@ -1,7 +1,7 @@
 /**
- * Stitch TypeScript client template — Ruby sidecar edition.
+ * Stitch TypeScript client template - Ruby sidecar edition.
  * Generated for bridge: [CLAUDE_BRIDGE_NAME]
- * Do NOT edit — regenerate via Stitch CLI
+ * Do NOT edit - regenerate via Stitch CLI
  */
 
 import { spawn } from 'child_process';
@@ -16,7 +16,7 @@ import {
 // ── [CLAUDE_BRIDGE_NAME] client ──────────────────────────────────────────────
 
 export class [CLAUDE_CLIENT_CLASS_NAME] extends BridgeClientBase {
-  /** Path to the Ruby sidecar script — override via constructor option. */
+  /** Path to the Ruby sidecar script - override via constructor option. */
   private readonly scriptPath: string;
   private child: ReturnType<typeof spawn> | null = null;
 

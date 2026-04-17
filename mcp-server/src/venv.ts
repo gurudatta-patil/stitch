@@ -1,5 +1,5 @@
 /**
- * venv.ts — Python virtual-environment management.
+ * venv.ts - Python virtual-environment management.
  *
  * Tries `uv` first (fast), falls back to `python -m venv`.
  */

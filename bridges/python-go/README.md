@@ -1,4 +1,4 @@
-# Stitch — Python → Go
+# Stitch - Python → Go
 
 A minimal, production-ready bridge that lets a **Python process** call methods
 implemented in a **compiled Go binary** over newline-delimited JSON-RPC on
@@ -11,7 +11,7 @@ GoBridge.call("add", ...)  ──►  handleAdd(params)
                            ◄──  {"id":"…","result":42}
 ```
 
-No network sockets, no serialisation frameworks, no shared memory — just pipes
+No network sockets, no serialisation frameworks, no shared memory - just pipes
 and JSON.
 
 ---
@@ -94,11 +94,11 @@ exit cleanly.
 ```python
 from template_client import GoBridge, GoBridgeError
 
-# Option A — context manager (recommended)
+# Option A - context manager (recommended)
 with GoBridge("/path/to/your-binary") as bridge:
     result = bridge.call("my_method", {"key": "value"})
 
-# Option B — manual lifecycle
+# Option B - manual lifecycle
 bridge = GoBridge("/path/to/your-binary")
 bridge.start()
 try:

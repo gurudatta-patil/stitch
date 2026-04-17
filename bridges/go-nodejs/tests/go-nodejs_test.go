@@ -1,4 +1,4 @@
-// go-nodejs_test.go — integration tests for the Go→Node.js bridge.
+// go-nodejs_test.go - integration tests for the Go→Node.js bridge.
 //
 // Prerequisites: `node` must be on PATH.
 // Run:  go test -v -count=1 ./tests/
@@ -151,7 +151,7 @@ func TestStdinEOF(t *testing.T) {
 	if _, err := b.Call("echo", map[string]any{"ping": true}); err != nil {
 		t.Fatalf("echo before close: %v", err)
 	}
-	// Close the bridge — this closes stdin, triggering rl.on('close') in the child.
+	// Close the bridge - this closes stdin, triggering rl.on('close') in the child.
 	if err := b.Close(); err != nil {
 		t.Fatalf("Close: %v", err)
 	}
@@ -188,7 +188,7 @@ func TestMain(m *testing.M) {
 	if _, err := gobridge.LookupNode(); err != nil {
 		// Print a clear message and exit 0 (skip, not fail) so CI on environments
 		// without Node does not break the overall build.
-		println("SKIP: node not found on PATH —", err.Error())
+		println("SKIP: node not found on PATH -", err.Error())
 		os.Exit(0)
 	}
 	os.Exit(m.Run())

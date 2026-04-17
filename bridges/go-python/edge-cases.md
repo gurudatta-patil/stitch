@@ -1,4 +1,4 @@
-# Edge Cases — Go → Python Bridge
+# Edge Cases - Go → Python Bridge
 
 This document captures Go-specific and Python-specific quirks that can trip
 up implementors of the Stitch Go→Python pattern.
@@ -13,7 +13,7 @@ serialisation exceeds that (e.g. a base64-encoded image or a large ML
 tensor), the scanner silently stops with `bufio.ErrTooLong` and the bridge
 freezes.
 
-**Fix** — always call `Scanner.Buffer` with a larger limit immediately after
+**Fix** - always call `Scanner.Buffer` with a larger limit immediately after
 creating the scanner:
 
 ```go
@@ -66,7 +66,7 @@ the Go side without any issue.
 
 ---
 
-## 4. `cmd.Wait()` must always be called — defer it
+## 4. `cmd.Wait()` must always be called - defer it
 
 `exec.Cmd.Wait()` releases the OS resources associated with the child process
 (file descriptors, the process table entry on Unix).  If you never call it,
@@ -74,7 +74,7 @@ you leak a zombie process.
 
 The `killChild()` helper in the template always calls `cmd.Wait()` in a
 goroutine after signalling the process.  Make sure your own cleanup path also
-calls it — a common mistake is to call `cmd.Process.Kill()` directly without
+calls it - a common mistake is to call `cmd.Process.Kill()` directly without
 a subsequent `Wait`.
 
 **Pattern**:
@@ -112,7 +112,7 @@ The correct shutdown sequence is:
 ```
 
 If you call `cmd.Wait()` before closing stdin, `Wait` will block until the
-child exits on its own — but the child is waiting for more input.  You have a
+child exits on its own - but the child is waiting for more input.  You have a
 deadlock.
 
 ---
@@ -123,7 +123,7 @@ On Windows, Go's `syscall` package does not export `SIGTERM`.  The `killChild`
 function in the template uses `syscall.SIGTERM`; this will fail to compile on
 Windows.
 
-**Fix** — add a build constraint:
+**Fix** - add a build constraint:
 
 ```go
 //go:build !windows

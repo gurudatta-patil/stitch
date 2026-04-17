@@ -1,11 +1,11 @@
-# Edge Cases — Rust → Go Bridge
+# Edge Cases - Rust → Go Bridge
 
 This document captures Rust-to-Go specific edge cases you must handle when
 operating Stitch in production or when building on top of the templates.
 
 ---
 
-## 1. Both Are Compiled Languages — Build Order Matters
+## 1. Both Are Compiled Languages - Build Order Matters
 
 Unlike a scripting-language sidecar, the Go binary must be compiled before the
 Rust client can spawn it.  An MCP server that orchestrates both must:
@@ -53,7 +53,7 @@ cases:
 
 | Scenario | Rust (`serde_json`) | Go (`encoding/json`) |
 |---|---|---|
-| `{"n": 42}` decoded to `f64` | `42.0` | `float64(42)` — same |
+| `{"n": 42}` decoded to `f64` | `42.0` | `float64(42)` - same |
 | Integer overflow (> i64::MAX) | parse error | silently wraps or uses `float64` |
 | `null` field | `Value::Null` | `nil` interface / zero value |
 | Unknown fields | ignored by default | ignored by default |
@@ -62,11 +62,11 @@ cases:
 **Practical rules:**
 
 - Always use `json.RawMessage` for `params` in Go and decode inside each handler
-  — this defers type coercion to where you know the schema.
+  - this defers type coercion to where you know the schema.
 - When Rust sends an integer as `serde_json::Value::Number`, Go decodes it as
   `float64` by default.  Use `json.Number` or decode into a typed struct to
   preserve integer semantics.
-- Never rely on field ordering in JSON objects — both languages produce arbitrary
+- Never rely on field ordering in JSON objects - both languages produce arbitrary
   ordering.
 
 ---
@@ -158,7 +158,7 @@ The templates enforce this in `writeJSON`.
 
 ---
 
-## 8. Reader Thread — Never Block the Dispatch Loop
+## 8. Reader Thread - Never Block the Dispatch Loop
 
 The Rust reader thread calls `BufReader::lines()` in a tight loop.  If a Go
 handler blocks indefinitely (e.g., a deadlocked channel), the response never
@@ -173,7 +173,7 @@ handlers.
 
 ## 9. ID Uniqueness and UUID Version
 
-Request IDs are UUIDs v4 (random).  The Go sidecar echoes them back verbatim —
+Request IDs are UUIDs v4 (random).  The Go sidecar echoes them back verbatim -
 it never generates IDs.  Collision probability across 2^122 random bits is
 negligible for any realistic call volume.
 
@@ -187,6 +187,6 @@ single-threaded use, but `Arc<Mutex<Bridge>>` patterns require explicit locking)
 
 If the Rust process drops a `GoBridge` without calling `shutdown()`, the `Drop`
 impl calls `child.kill()` followed by `child.wait()`.  The `wait()` call is
-essential — without it the child becomes a zombie process on POSIX systems.
+essential - without it the child becomes a zombie process on POSIX systems.
 
 Never skip `child.wait()` after `child.kill()`.

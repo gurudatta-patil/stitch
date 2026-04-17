@@ -1,4 +1,4 @@
-# Future Scope — TypeScript → Go Bridge
+# Future Scope - TypeScript → Go Bridge
 
 ## 1. Goroutine pool for concurrent method handlers
 

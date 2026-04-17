@@ -1,4 +1,4 @@
-//! Stitch — Rust→Ruby bridge integration tests.
+//! Stitch - Rust→Ruby bridge integration tests.
 //!
 //! These are `#[cfg(test)]` tests intended to be run from the workspace root:
 //!
@@ -65,7 +65,7 @@ impl Bridge {
             .stdout(Stdio::piped())
             .stderr(Stdio::inherit())
             .spawn()
-            .expect("failed to spawn ruby — is ruby in PATH?");
+            .expect("failed to spawn ruby - is ruby in PATH?");
 
         let stdout = child.stdout.take().unwrap();
         let stdin = child.stdin.take().unwrap();
@@ -294,7 +294,7 @@ mod tests {
         let mut b = new_bridge();
         // Do a real call first so we know the child is fully alive.
         let _ = b.call("echo", json!({ "value": "pre-eof" })).unwrap();
-        // Close stdin — Ruby's each_line loop terminates.
+        // Close stdin - Ruby's each_line loop terminates.
         b.close();
         // Allow Ruby some time to flush and exit.
         thread::sleep(Duration::from_millis(400));
@@ -316,7 +316,7 @@ mod tests {
         let pid = b.child.id();
         drop(b);
         // On Unix we can check /proc/<pid>; cross-platform: just verify no panic.
-        // If child lingered the process count would grow — sufficient to assert no error.
+        // If child lingered the process count would grow - sufficient to assert no error.
         #[cfg(unix)]
         {
             thread::sleep(Duration::from_millis(200));

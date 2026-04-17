@@ -1,6 +1,6 @@
 # Stitch: TypeScript → Python
 
-Spawn a Python sidecar from Node.js and call it as if it were a local async function. All communication goes over newline-delimited JSON-RPC on stdio — no HTTP server, no network port, no serialisation library required on either side.
+Spawn a Python sidecar from Node.js and call it as if it were a local async function. All communication goes over newline-delimited JSON-RPC on stdio - no HTTP server, no network port, no serialisation library required on either side.
 
 ---
 
@@ -12,8 +12,8 @@ Spawn a Python sidecar from Node.js and call it as if it were a local async func
 | Call numpy/scipy/pandas from Node.js | Yes |
 | Use Python async libraries (aiohttp, asyncpg) from TS | Yes (with async sidecar variant) |
 | Replace a Python microservice that handles < 1 req/s | Yes |
-| High-frequency, sub-millisecond RPC (> 10 000 req/s) | No — use native addons or HTTP/2 |
-| Transfer tensors > 10 MB per call routinely | No — use the fd[3] binary channel (future) |
+| High-frequency, sub-millisecond RPC (> 10 000 req/s) | No - use native addons or HTTP/2 |
+| Transfer tensors > 10 MB per call routinely | No - use the fd[3] binary channel (future) |
 
 ---
 

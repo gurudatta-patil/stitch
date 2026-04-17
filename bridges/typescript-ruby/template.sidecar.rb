@@ -1,7 +1,7 @@
 # [CLAUDE_BRIDGE_HEADER]
 # Stitch Ruby sidecar template
 # Generated for bridge: [CLAUDE_BRIDGE_NAME]
-# Do NOT edit — regenerate via Stitch CLI
+# Do NOT edit - regenerate via Stitch CLI
 
 require_relative '../../shared/ruby_sidecar/sidecar_base'
 

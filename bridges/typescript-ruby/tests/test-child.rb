@@ -1,4 +1,4 @@
-# Stitch — Ruby test sidecar
+# Stitch - Ruby test sidecar
 # Used by ts-ruby.test.ts to exercise the full JSON-RPC bridge.
 
 $stdout.sync = true
@@ -10,7 +10,7 @@ require 'base64'
 Signal.trap('TERM') { exit 0 }
 Signal.trap('INT')  { exit 0 }
 
-# Stdin-EOF watchdog — exits when parent closes stdin
+# Stdin-EOF watchdog - exits when parent closes stdin
 Thread.new do
   loop { break if $stdin.read(1).nil? }
   exit 0
@@ -51,7 +51,7 @@ HANDLERS = {
   },
 }.freeze
 
-# Ready signal — parent blocks until it reads this line
+# Ready signal - parent blocks until it reads this line
 $stdout.puts JSON.generate({ ready: true })
 
 # JSON-RPC main loop

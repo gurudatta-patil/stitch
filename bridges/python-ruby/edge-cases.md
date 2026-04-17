@@ -6,7 +6,7 @@ the top-level project documentation.
 
 ---
 
-## 1. Python subprocess stdout read blocking — always use a thread reader
+## 1. Python subprocess stdout read blocking - always use a thread reader
 
 `subprocess.Popen` gives you a raw `stdout` pipe.  If you call
 `proc.stdout.read()` or even `proc.stdout.readline()` on the **main thread**
@@ -18,10 +18,10 @@ up and both processes block waiting for the other to drain.
 stdout reads.
 
 ```python
-# WRONG — blocks the calling thread and risks deadlock
+# WRONG - blocks the calling thread and risks deadlock
 line = proc.stdout.readline()
 
-# CORRECT — let the reader thread handle it; block only on a Queue
+# CORRECT - let the reader thread handle it; block only on a Queue
 reader_thread = threading.Thread(target=reader_loop, daemon=True)
 reader_thread.start()
 response = response_queue.get(timeout=30)
@@ -34,7 +34,7 @@ response = response_queue.get(timeout=30)
 The classic subprocess deadlock:
 
 1. Python writes a large request to `proc.stdin`.
-2. The OS pipe buffer for **stdin** fills up — Python blocks inside `write()`.
+2. The OS pipe buffer for **stdin** fills up - Python blocks inside `write()`.
 3. Ruby has not read the request yet because it is blocked writing a large
    **stdout** response to a full pipe.
 4. Neither side can proceed.
@@ -76,7 +76,7 @@ consequences for the bridge:
 The `_install_signal_handlers()` method checks
 `threading.current_thread() is threading.main_thread()` and silently skips
 installation if called from a worker thread.  If you construct `RubyBridge`
-inside a thread pool you lose automatic cleanup — call `bridge.close()`
+inside a thread pool you lose automatic cleanup - call `bridge.close()`
 manually in your thread's `finally` block.
 
 ### 4b. `queue.Queue.get(timeout=...)` is interruptible by SIGINT
@@ -88,7 +88,7 @@ with the default handler so the process exits cleanly.
 
 ---
 
-## 5. `bytes` vs `str` — subprocess pipes return `bytes`
+## 5. `bytes` vs `str` - subprocess pipes return `bytes`
 
 `proc.stdout.readline()` returns `bytes`, not `str`.  Always decode:
 

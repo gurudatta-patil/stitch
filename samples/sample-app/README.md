@@ -1,4 +1,4 @@
-# Stitch Sample — Text Analyser
+# Stitch Sample - Text Analyser
 
 A TypeScript app that calls a Python text-analysis library via Stitch.
 
@@ -7,7 +7,7 @@ The goal: call it from TypeScript without rewriting anything.
 
 ---
 
-## Step 1 — verify the Python script works
+## Step 1 - verify the Python script works
 
 ```bash
 python3 analyze.py data/sample.txt
@@ -24,7 +24,7 @@ Top words      : consciousness, brain, why, experience, information
 
 ---
 
-## Step 2 — register the MCP server (once, globally)
+## Step 2 - register the MCP server (once, globally)
 
 ```bash
 claude mcp add stitch -- npx tsx /Users/gurudattapatil/Documents/GitHub/claude-bridge/mcp-server/src/index.ts
@@ -38,7 +38,7 @@ claude mcp list
 
 ---
 
-## Step 3 — install deps
+## Step 3 - install deps
 
 ```bash
 npm install
@@ -46,7 +46,7 @@ npm install
 
 ---
 
-## Step 3 — open Claude Code in this folder
+## Step 3 - open Claude Code in this folder
 
 ```bash
 cd sample-app
@@ -55,7 +55,7 @@ claude
 
 ---
 
-## Step 4 — paste this prompt into Claude Code
+## Step 4 - paste this prompt into Claude Code
 
 ```
 Use the generate_stitch MCP tool to create a bridge with these details:
@@ -74,7 +74,7 @@ Use the generate_stitch MCP tool to create a bridge with these details:
     3. readability(text: string) → returns { score: float }
          Flesch Reading Ease score (0-100, higher = easier to read).
 
-    No extra pip packages needed — stdlib only (re, collections).
+    No extra pip packages needed - stdlib only (re, collections).
 
   dependencies: []
 
@@ -86,7 +86,7 @@ After generating the bridge, update analyze.ts to:
 
 ---
 
-## Step 5 — run it
+## Step 5 - run it
 
 ```bash
 npm run analyze

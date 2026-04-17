@@ -1,6 +1,6 @@
 # Go → Ruby Bridge
 
-Part of **Stitch** — seamless cross-language IPC via JSON-RPC over stdio.
+Part of **Stitch** - seamless cross-language IPC via JSON-RPC over stdio.
 
 This bridge lets a Go application call methods implemented in Ruby through a
 lightweight subprocess protocol.  No HTTP server, no ports, no serialisation
@@ -85,7 +85,7 @@ flags like `-W0` (suppress warnings) or `-rbundler/setup`.
 
 Sends a JSON-RPC request and blocks until the response arrives.
 
-- `out` — pointer to unmarshal the `result` field into, or `nil` to discard.
+- `out` - pointer to unmarshal the `result` field into, or `nil` to discard.
 - Returns `*goruby.RPCError` if the sidecar returned an error frame.
 
 ### `(*Client).Close() error`
@@ -152,7 +152,7 @@ results to stdout.
 
 ```
 bridges/go-ruby/
-├── template.client.go        Go client — copy into your module
+├── template.client.go        Go client - copy into your module
 ├── template.sidecar.rb       Ruby sidecar template
 ├── go.mod                    Module definition
 ├── edge-cases.md             Go→Ruby specific pitfalls

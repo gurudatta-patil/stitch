@@ -29,12 +29,12 @@ end
 
 # ── Method handlers ────────────────────────────────────────────────────────────
 
-# echo — returns params[:text] unchanged.
+# echo - returns params[:text] unchanged.
 def handle_echo(params)
   { text: params['text'] }
 end
 
-# add — sums two numbers a and b.
+# add - sums two numbers a and b.
 def handle_add(params)
   a = params['a']
   b = params['b']
@@ -42,14 +42,14 @@ def handle_add(params)
   { sum: a + b }
 end
 
-# raise_error — always raises with the provided message, useful for testing
+# raise_error - always raises with the provided message, useful for testing
 # error propagation across the bridge.
 def handle_raise_error(params)
   msg = params['msg'] || 'test error'
   raise RuntimeError, msg
 end
 
-# echo_b64 — decodes a Base64-encoded string, then re-encodes it.
+# echo_b64 - decodes a Base64-encoded string, then re-encodes it.
 # Useful for validating binary-safe round-trips.
 def handle_echo_b64(params)
   encoded = params['data'] || ''
@@ -57,7 +57,7 @@ def handle_echo_b64(params)
   { decoded: decoded, re_encoded: Base64.strict_encode64(decoded) }
 end
 
-# slow — sleeps for `ms` milliseconds, then echoes the duration.
+# slow - sleeps for `ms` milliseconds, then echoes the duration.
 # Used by concurrency tests to verify pipelined calls are not serialised on
 # the Go side.
 def handle_slow(params)

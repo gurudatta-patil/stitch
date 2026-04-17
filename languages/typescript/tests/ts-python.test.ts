@@ -5,7 +5,7 @@
  *      (or: npx jest, depending on project setup)
  */
 
-// TODO Phase 1 — implement each test
+// TODO Phase 1 - implement each test
 
 describe('ts → python: basic JSON-RPC', () => {
   test('sends a request and receives a matching response', async () => {

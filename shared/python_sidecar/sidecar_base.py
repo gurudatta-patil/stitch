@@ -1,5 +1,5 @@
 """
-Stitch — shared Python sidecar base.
+Stitch - shared Python sidecar base.
 
 All Python sidecars (typescript-python, go-python, rust-python) call
 `run_sidecar(handlers)` from this module rather than duplicating the
@@ -104,7 +104,7 @@ def run_sidecar(handlers: dict) -> None:
     Note on zombie-prevention: rather than a competing watchdog thread that
     races with readline() for the BufferedReader lock, we rely on the fact
     that ``for raw_line in sys.stdin`` exits when stdin reaches EOF (parent
-    closed the pipe).  We call ``os._exit(0)`` after the loop — no separate
+    closed the pipe).  We call ``os._exit(0)`` after the loop - no separate
     thread needed, no race condition possible.
     """
     # 1. Signal readiness.  The parent waits for this line before sending
@@ -138,5 +138,5 @@ def run_sidecar(handlers: dict) -> None:
             tb = _traceback.format_exc()
             _send_error(req_id, str(exc), tb)
 
-    # 3. stdin reached EOF — parent closed the pipe or died.  Exit cleanly.
+    # 3. stdin reached EOF - parent closed the pipe or died.  Exit cleanly.
     _os._exit(0)

@@ -1,4 +1,4 @@
-//! Stitch — Rust client template for the Python sidecar.
+//! Stitch - Rust client template for the Python sidecar.
 //!
 //! Replace every `TODO` comment with your own logic before shipping.
 //!
@@ -37,9 +37,9 @@ pub struct PythonBridge {
 impl PythonBridge {
     /// Spawn the Python sidecar and wait for its `{"ready":true}` signal.
     ///
-    /// * `python_path`   — path to the Python interpreter.
-    /// * `script_path`   — path to the `.py` sidecar file.
-    /// * `ready_timeout` — deadline for the ready handshake.
+    /// * `python_path`   - path to the Python interpreter.
+    /// * `script_path`   - path to the `.py` sidecar file.
+    /// * `ready_timeout` - deadline for the ready handshake.
     pub fn new(
         python_path: &str,
         script_path: &str,
@@ -101,7 +101,7 @@ impl Drop for PythonBridge {
 }
 
 // ---------------------------------------------------------------------------
-// main — wire Ctrl-C, run a demo call
+// main - wire Ctrl-C, run a demo call
 // ---------------------------------------------------------------------------
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
@@ -122,7 +122,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     });
 
     ctrlc::set_handler(move || {
-        eprintln!("[main] Ctrl-C — shutting down.");
+        eprintln!("[main] Ctrl-C - shutting down.");
         std::process::exit(0);
     })?;
 

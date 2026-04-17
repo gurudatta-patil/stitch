@@ -1,4 +1,4 @@
-# Language Rules — Ruby (Sidecar / Target)
+# Language Rules - Ruby (Sidecar / Target)
 
 Ruby acts as a **target** (child process), receiving JSON-RPC requests via stdin and writing responses to stdout.
 
@@ -10,7 +10,7 @@ Ruby acts as a **target** (child process), receiving JSON-RPC requests via stdin
 |---------|------|
 | Isolation | Always run inside a Bundler-managed gemset or an rbenv gemset. Never `gem install` globally. |
 | Minimum version | Ruby 3.1 |
-| Package manager | `bundler` — generate a `Gemfile` inside `.stitch/ruby/<bridge_name>/` |
+| Package manager | `bundler` - generate a `Gemfile` inside `.stitch/ruby/<bridge_name>/` |
 | Executable path | `.stitch/ruby/<bridge_name>/vendor/bundle` or system rbenv path |
 
 ---
@@ -18,7 +18,7 @@ Ruby acts as a **target** (child process), receiving JSON-RPC requests via stdin
 ## Startup Contract
 
 1. Require gems.
-2. Flush `$stdout` (`$stdout.sync = true` — **mandatory**, otherwise output is buffered).
+2. Flush `$stdout` (`$stdout.sync = true` - **mandatory**, otherwise output is buffered).
 3. Write `{"ready":true}` + newline to stdout.
 4. Enter readline loop.
 

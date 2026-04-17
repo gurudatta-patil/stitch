@@ -1,5 +1,5 @@
 """
-GoBridge — Python client for a compiled Go sidecar.
+GoBridge - Python client for a compiled Go sidecar.
 
 Protocol
 --------
@@ -35,7 +35,7 @@ class GoBridge(BridgeClientBase):
     Spawns a compiled Go binary as a subprocess and communicates with it via
     newline-delimited JSON-RPC over stdio.
 
-    Usage (context manager — preferred)
+    Usage (context manager - preferred)
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     with GoBridge("/path/to/binary") as bridge:
         result = bridge.call("add", {"a": 1, "b": 2})

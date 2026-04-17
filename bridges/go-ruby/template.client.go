@@ -73,11 +73,11 @@ func New(scriptPath string, rubyArgs ...string) (*Client, error) {
 		}
 		readyCh <- nil
 
-		// Dispatch loop — runs for the lifetime of the process.
+		// Dispatch loop - runs for the lifetime of the process.
 		for scanner.Scan() {
 			var resp stitch.RpcResponse
 			if err := json.Unmarshal(scanner.Bytes(), &resp); err != nil {
-				continue // malformed frame — skip
+				continue // malformed frame - skip
 			}
 			pending.Dispatch(resp)
 		}

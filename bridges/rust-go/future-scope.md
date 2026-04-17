@@ -1,4 +1,4 @@
-# Future Scope — Rust → Go Bridge
+# Future Scope - Rust → Go Bridge
 
 Ideas and directions for evolving the Stitch Rust-to-Go implementation
 beyond its current JSON-RPC-over-stdio baseline.
@@ -15,7 +15,7 @@ channel can reduce copies dramatically.
 
 Both Rust and Go have mature mmap primitives:
 
-- **Rust:** `memmap2` crate (`MmapMut`) — safe, cross-platform.
+- **Rust:** `memmap2` crate (`MmapMut`) - safe, cross-platform.
 - **Go:** `golang.org/x/sys/unix.Mmap` or `syscall.Mmap` on Linux/macOS;
   `CreateFileMapping` / `MapViewOfFile` on Windows.
 
@@ -39,9 +39,9 @@ A possible design:
 ```
 
 Synchronisation options:
-- **POSIX semaphores / futex** — lowest latency, Linux-only.
-- **Named pipe / eventfd** — still a syscall but zero copy for the payload.
-- **Busy-poll ring buffer** (LMAX Disruptor style) — sub-microsecond, burns a
+- **POSIX semaphores / futex** - lowest latency, Linux-only.
+- **Named pipe / eventfd** - still a syscall but zero copy for the payload.
+- **Busy-poll ring buffer** (LMAX Disruptor style) - sub-microsecond, burns a
   CPU core.
 
 **Trade-offs:** mmap IPC is far more complex to implement correctly (memory
@@ -60,10 +60,10 @@ Before choosing Stitch, it is worth understanding where CGo fits:
 | Language boundary | Process boundary | In-process function call |
 | Overhead per call | ~0.2 ms (JSON + pipe) | ~100 ns (CGo call overhead) |
 | Type safety | JSON schema (runtime) | C ABI (compile-time) |
-| Crash isolation | Full — Go panic cannot kill Rust | None — Go panic kills the whole process |
+| Crash isolation | Full - Go panic cannot kill Rust | None - Go panic kills the whole process |
 | Memory sharing | Explicit (mmap or copy) | Direct pointer passing |
 | Build complexity | Two separate binaries | Single binary, `cgo` toolchain required |
-| Cross-compilation | Easy for both | Hard — needs a C cross-compiler |
+| Cross-compilation | Easy for both | Hard - needs a C cross-compiler |
 | Windows support | Full | Requires MinGW/MSVC |
 | Deployment | Two files | One file |
 

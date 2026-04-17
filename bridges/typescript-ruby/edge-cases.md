@@ -36,7 +36,7 @@ startup can take **50–300 ms** while Bundler resolves the gem graph. Strategie
 - Use `BUNDLE_GEMFILE=/path/to/Gemfile bundle exec ruby …` if the script lives
   outside the project root.
 - For gems with C extensions, the first `require` triggers `.so` / `.bundle`
-  loading — profile with `ruby -e "require 'bundler/setup'; require 'pg'"`.
+  loading - profile with `ruby -e "require 'bundler/setup'; require 'pg'"`.
 - Stitch places each bridge's Gemfile under
   `.stitch/ruby/<bridge>/Gemfile`. Ensure `BUNDLE_GEMFILE` is exported
   before spawning, or pass it in the `env` option of `child_process.spawn`.
@@ -50,15 +50,15 @@ startup can take **50–300 ms** while Bundler resolves the gem graph. Strategie
 | `$stdout.sync = true` | Auto-flush after **every write**. Equivalent to `C`'s `setbuf(stdout, NULL)`. |
 | `$stdout.flush` | One-shot manual flush at the call site. |
 | `IO#write` | Does **not** append a newline; safe for framing. |
-| `$stdout.puts` | Appends `\n` if not already present. Safe for single-line JSON, **dangerous** if the JSON string itself contains an embedded newline (it won't — `JSON.generate` escapes them, but worth knowing). |
+| `$stdout.puts` | Appends `\n` if not already present. Safe for single-line JSON, **dangerous** if the JSON string itself contains an embedded newline (it won't - `JSON.generate` escapes them, but worth knowing). |
 
 **Rule:** Always set `$stdout.sync = true` as the very first line. Do not rely
-on `flush` calls scattered throughout handlers — they are easy to miss after
+on `flush` calls scattered throughout handlers - they are easy to miss after
 refactoring.
 
 ---
 
-## 4. Windows: Ruby on Windows — UTF-8 BOM and CRLF
+## 4. Windows: Ruby on Windows - UTF-8 BOM and CRLF
 
 On Windows, the default console code page is often **CP1252** or **CP932**
 (Japanese). Ruby respects `Encoding.default_external`, which may not be UTF-8.
@@ -94,7 +94,7 @@ Ruby's exception tree differs from most languages:
 
 ```
 Exception
-├── ScriptError   (SyntaxError, LoadError — cannot rescue with rescue => e)
+├── ScriptError   (SyntaxError, LoadError - cannot rescue with rescue => e)
 ├── SignalException
 │   └── Interrupt
 └── StandardError   ← rescue => e catches this and subclasses only
@@ -109,7 +109,7 @@ Exception
 A `LoadError` (missing gem) or `SyntaxError` will **not** be caught and will
 terminate the sidecar without sending a JSON-RPC error response. The TypeScript
 client will see the process exit and reject all pending calls via the `exit`
-handler — which is correct behaviour, but add logging to `$stderr` so the cause
+handler - which is correct behaviour, but add logging to `$stderr` so the cause
 is visible.
 
 To catch everything (use sparingly):
@@ -120,7 +120,7 @@ rescue Exception => e   # catches LoadError, SignalException, etc.
 
 ---
 
-## 6. `puts` vs `write` Differences — Framing Safety
+## 6. `puts` vs `write` Differences - Framing Safety
 
 | Method | Newline behaviour | Framing risk |
 |---|---|---|
@@ -130,5 +130,5 @@ rescue Exception => e   # catches LoadError, SignalException, etc.
 
 **Recommendation:** Use `$stdout.puts JSON.generate(...)` consistently.
 `JSON.generate` never emits a trailing newline, so `puts` adds exactly one `\n`,
-giving clean newline-delimited framing. Avoid `p obj` in handlers — it writes
+giving clean newline-delimited framing. Avoid `p obj` in handlers - it writes
 `inspect` output with a newline to stdout and will corrupt the framing.

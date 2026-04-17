@@ -78,7 +78,7 @@ describe("validateTypeScript", () => {
   });
 
   test("missing bridge class declaration", () => {
-    // Remove the class declaration entirely — not just rename it
+    // Remove the class declaration entirely - not just rename it
     const bad = validTs.replace(/export class \w+[^{]*\{/, "// class removed\nconst _noop = {");
     const r = validateTypeScript(bad);
     expect(r.ok).toBe(false);

@@ -1,4 +1,4 @@
-# Stitch — TypeScript → Go
+# Stitch - TypeScript → Go
 
 Spawn a compiled Go binary as a long-lived sidecar and communicate over
 newline-delimited JSON-RPC on stdin/stdout.  The Go binary starts in ~5 ms,
@@ -57,7 +57,7 @@ await client.close();
 ```
 
 Process-level cleanup hooks (SIGINT, SIGTERM, uncaughtException, exit) are
-registered automatically — you do not need to call `close()` in a signal
+registered automatically - you do not need to call `close()` in a signal
 handler yourself.
 
 ---
@@ -104,7 +104,7 @@ bridges/typescript-go/
 | Child startup | `{"ready":true}\n` emitted before entering the request loop |
 
 All messages are newline-delimited.  The parent buffers chunks and splits on
-`\n` — it never parses a raw `data` event as JSON directly.
+`\n` - it never parses a raw `data` event as JSON directly.
 
 ---
 

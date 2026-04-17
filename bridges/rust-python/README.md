@@ -1,4 +1,4 @@
-# Stitch — Rust → Python
+# Stitch - Rust → Python
 
 Seamless cross-language IPC between a Rust host process and a Python sidecar
 via newline-delimited JSON-RPC over stdio.
@@ -31,11 +31,11 @@ bridges/rust-python/
 
 | Direction     | Message                                                  |
 |---------------|----------------------------------------------------------|
-| Child → Host  | `{"ready":true}` — first line on startup                 |
+| Child → Host  | `{"ready":true}` - first line on startup                 |
 | Host → Child  | `{"id":"<uuid>","method":"<name>","params":{...}}`       |
-| Child → Host  | `{"id":"<uuid>","result":<any>}` — success               |
+| Child → Host  | `{"id":"<uuid>","result":<any>}` - success               |
 | Child → Host  | `{"id":"<uuid>","error":{"code":<int>,"message":"..."}}` |
-| Host → Child  | stdin EOF — signals the child to exit                    |
+| Host → Child  | stdin EOF - signals the child to exit                    |
 
 All messages are newline-delimited (`\n`).
 
@@ -90,7 +90,7 @@ cargo test --test rust-python_test   # if wired into a workspace
 
 1. Copy `template.sidecar.py` to your project.
 2. Add your handler functions to `_HANDLERS`.
-3. The `sys.stdout = sys.stderr` redirect at the top is mandatory — do not
+3. The `sys.stdout = sys.stderr` redirect at the top is mandatory - do not
    remove it.
 
 ### Rust client (`template.client/`)
@@ -120,7 +120,7 @@ bridge.close()?;
 | `PYTHON_PATH`   | `venv/bin/python` or `python3`   | Path to the Python interpreter     |
 | `SIDECAR_SCRIPT`| `sidecar.py`                     | Path to the `.py` sidecar file     |
 
-Build paths with `std::env::current_dir()` or `std::env::var()` — never
+Build paths with `std::env::current_dir()` or `std::env::var()` - never
 hardcode absolute paths.
 
 ---
@@ -139,18 +139,18 @@ hardcode absolute paths.
 
 ## Key design decisions
 
-**Pending map + per-call mpsc channel** — each `call()` registers a
+**Pending map + per-call mpsc channel** - each `call()` registers a
 `SyncSender<RpcResponse>` keyed by UUID in a shared `HashMap`.  The reader
 thread removes and fires the sender on receipt.  This gives each call a private
 rendezvous point with zero shared state between concurrent callers.
 
-**Ready signal via the same pending map** — the `"__ready__"` slot is inserted
+**Ready signal via the same pending map** - the `"__ready__"` slot is inserted
 before the reader thread starts, ensuring the signal is never missed.
 
-**Drop impl kills the child** — `PythonBridge` implements `Drop` so the child
+**Drop impl kills the child** - `PythonBridge` implements `Drop` so the child
 is always reaped even if `close()` is never called (e.g., after `?` unwinds).
 
-**POSIX: SIGTERM then SIGKILL** — `close()` sends SIGTERM first and polls with
+**POSIX: SIGTERM then SIGKILL** - `close()` sends SIGTERM first and polls with
 `try_wait()` for 500 ms before escalating to `child.kill()` (SIGKILL).  On
 Windows the SIGTERM block is gated behind `#[cfg(unix)]`.
 
@@ -158,7 +158,7 @@ Windows the SIGTERM block is gated behind `#[cfg(unix)]`.
 
 ## See also
 
-- [`edge-cases.md`](./edge-cases.md) — ownership, thread panics, venv paths,
+- [`edge-cases.md`](./edge-cases.md) - ownership, thread panics, venv paths,
   Windows quirks, pipe back-pressure.
-- [`future-scope.md`](./future-scope.md) — tokio async client, PyO3,
+- [`future-scope.md`](./future-scope.md) - tokio async client, PyO3,
   shared-memory transport, gRPC, WASM sidecar.

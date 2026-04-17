@@ -1,4 +1,4 @@
-// template.client.go — Stitch: Go (source) → Python (target) client template.
+// template.client.go - Stitch: Go (source) → Python (target) client template.
 //
 // Copy this file into your project and replace the three PLACEHOLDER sections:
 //   1. SIDECAR_SCRIPT  – path to the Python sidecar (absolute or relative to binary)
@@ -27,7 +27,7 @@ import (
 )
 
 // ---------------------------------------------------------------------------
-// PLACEHOLDERS — edit these for your project
+// PLACEHOLDERS - edit these for your project
 // ---------------------------------------------------------------------------
 
 const (
@@ -122,7 +122,7 @@ func (b *Bridge) readLoop(scanner interface {
 
 		var resp stitch.RpcResponse
 		if err := json.Unmarshal([]byte(scanner.Text()), &resp); err != nil {
-			log.Printf("bridge: malformed response (skipped): %v — %q", err, scanner.Text())
+			log.Printf("bridge: malformed response (skipped): %v - %q", err, scanner.Text())
 			continue
 		}
 		if resp.ID == "" {

@@ -1,4 +1,4 @@
-# Language Rules — Rust (Sidecar / Target)
+# Language Rules - Rust (Sidecar / Target)
 
 Rust acts as a **target** (child process). It is compiled to a binary placed in `.stitch/rust/<bridge_name>/target/release/`.
 

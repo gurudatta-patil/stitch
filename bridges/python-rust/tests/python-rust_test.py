@@ -1,5 +1,5 @@
 """
-python-rust_test.py — pytest suite for the Python → Rust bridge.
+python-rust_test.py - pytest suite for the Python → Rust bridge.
 
 Prerequisites
 -------------
@@ -108,7 +108,7 @@ def test_add_zero(bridge: RustBridge) -> None:
 
 
 def test_add_large_i64(bridge: RustBridge) -> None:
-    # Near i64 max — Rust should handle this without overflow.
+    # Near i64 max - Rust should handle this without overflow.
     big = 2**62
     assert bridge.call("add", {"a": big, "b": 1}) == big + 1
 
@@ -185,7 +185,7 @@ def test_slow_timeout(bridge: RustBridge) -> None:
 
 
 # ---------------------------------------------------------------------------
-# Concurrency — ThreadPoolExecutor
+# Concurrency - ThreadPoolExecutor
 # ---------------------------------------------------------------------------
 
 
@@ -253,7 +253,7 @@ def test_concurrent_mixed(bridge: RustBridge) -> None:
 
 
 # ---------------------------------------------------------------------------
-# stdin EOF — child must exit
+# stdin EOF - child must exit
 # ---------------------------------------------------------------------------
 
 
@@ -272,11 +272,11 @@ def test_stdin_eof_exits_child(binary_path: Path) -> None:
     # Process should be gone.
     deadline = time.monotonic() + 3.0
     while time.monotonic() < deadline:
-        # _proc is None after stop; we can't poll it here — the test just
+        # _proc is None after stop; we can't poll it here - the test just
         # verifies stop() returns without hanging.
         break
 
-    # If we reach here stop() didn't hang — pass.
+    # If we reach here stop() didn't hang - pass.
 
 
 def test_context_manager_stops_on_exit(binary_path: Path) -> None:
@@ -289,9 +289,9 @@ def test_context_manager_stops_on_exit(binary_path: Path) -> None:
 
     try:
         os.kill(pid, 0)
-        # Process still alive — may be a zombie about to be reaped; tolerate.
+        # Process still alive - may be a zombie about to be reaped; tolerate.
     except ProcessLookupError:
-        pass  # Already gone — perfect.
+        pass  # Already gone - perfect.
 
 
 # ---------------------------------------------------------------------------

@@ -31,7 +31,7 @@ func NewWriter() *bufio.Writer {
 }
 
 // NewScanner returns a bufio.Scanner reading from os.Stdin with a 4 MiB
-// buffer — large enough for substantial JSON payloads.
+// buffer - large enough for substantial JSON payloads.
 func NewScanner() *bufio.Scanner {
 	scanner := bufio.NewScanner(os.Stdin)
 	const maxBuf = 4 * 1024 * 1024
@@ -79,7 +79,7 @@ func InstallSignalHandler() {
 	signal.Notify(ch, syscall.SIGINT, syscall.SIGTERM)
 	go func() {
 		sig := <-ch
-		fmt.Fprintf(os.Stderr, "[sidecar] received signal %v — exiting cleanly\n", sig)
+		fmt.Fprintf(os.Stderr, "[sidecar] received signal %v - exiting cleanly\n", sig)
 		os.Exit(0)
 	}()
 }

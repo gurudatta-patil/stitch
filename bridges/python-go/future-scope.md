@@ -1,4 +1,4 @@
-# Future Scope — Python → Go Bridge
+# Future Scope - Python → Go Bridge
 
 Ideas for extending the Python → Go bridge beyond its current capabilities.
 None of these are implemented yet; they are recorded here for future
@@ -42,7 +42,7 @@ file-processing progress, log tailing).  The current protocol returns a single
 // request
 {"id":"abc","method":"stream_tokens","params":{"prompt":"hello"},"stream":true}
 
-// partial events  (no "id" match needed — use sub-id)
+// partial events  (no "id" match needed - use sub-id)
 {"id":"abc","event":"token","data":"Hello"}
 {"id":"abc","event":"token","data":", world"}
 
@@ -64,7 +64,7 @@ method signatures.
 structs using `go/ast` and emits a `.pyi` stub file:
 
 ```python
-# generated — do not edit
+# generated - do not edit
 class GoBridgeStubs:
     def echo(self, message: str) -> str: ...
     def add(self, a: float, b: float) -> float: ...

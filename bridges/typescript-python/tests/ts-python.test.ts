@@ -34,7 +34,7 @@ interface PendingCall {
   reject: (e: Error) => void;
 }
 
-/** Minimal bridge sufficient for tests — mirrors the real template logic. */
+/** Minimal bridge sufficient for tests - mirrors the real template logic. */
 class TestBridge {
   private child!: ChildProcess;
   private pending = new Map<string, PendingCall>();
@@ -114,7 +114,7 @@ class TestBridge {
     }
   }
 
-  /** Close stdin without killing the child — used for EOF watchdog test. */
+  /** Close stdin without killing the child - used for EOF watchdog test. */
   closeStdin(): void {
     this.child.stdin!.end();
   }

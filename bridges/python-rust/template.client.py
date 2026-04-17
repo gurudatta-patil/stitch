@@ -27,7 +27,7 @@ class RustBridge(BridgeClientBase):
     Spawn a compiled Rust binary as a child process and communicate with it
     over newline-delimited JSON on stdin/stdout.
 
-    Usage (context manager — preferred):
+    Usage (context manager - preferred):
 
         with RustBridge("./target/release/my_sidecar") as bridge:
             result = bridge.call("add", {"a": 1, "b": 2})

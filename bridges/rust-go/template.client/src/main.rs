@@ -138,7 +138,7 @@ impl Drop for GoBridge {
 /// Install a Ctrl-C handler that prints a message and exits.
 pub fn install_ctrlc_handler() {
     ctrlc::set_handler(move || {
-        eprintln!("\n[GoBridge] Ctrl-C received — exiting.");
+        eprintln!("\n[GoBridge] Ctrl-C received - exiting.");
         std::process::exit(0);
     })
     .expect("failed to install Ctrl-C handler");

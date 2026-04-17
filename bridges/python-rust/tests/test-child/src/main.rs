@@ -1,4 +1,4 @@
-// Stitch — test-child Rust sidecar
+// Stitch - test-child Rust sidecar
 //
 // Implements the following methods for the Python test suite:
 //
@@ -167,7 +167,7 @@ fn main() {
     let mut out = BufWriter::new(stdout.lock());
 
     ctrlc::set_handler(move || {
-        eprintln!("test-child: caught signal — exiting.");
+        eprintln!("test-child: caught signal - exiting.");
         std::process::exit(0);
     })
     .expect("failed to set signal handler");
@@ -207,5 +207,5 @@ fn main() {
         }
     }
 
-    eprintln!("test-child: stdin EOF — exiting.");
+    eprintln!("test-child: stdin EOF - exiting.");
 }

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Stitch — test child sidecar (real implementation, no placeholders)
+# Stitch - test child sidecar (real implementation, no placeholders)
 #
 # Methods exposed:
 #   echo         { value: <any> }             → { value: <any> }
@@ -25,7 +25,7 @@ shutdown_mu = Mutex.new
 Signal.trap('TERM') { shutdown_mu.synchronize { shutdown = true } }
 Signal.trap('INT')  { shutdown_mu.synchronize { shutdown = true } }
 
-# Watchdog — exits if idle for more than 30 s (safety net for the test suite)
+# Watchdog - exits if idle for more than 30 s (safety net for the test suite)
 last_ts_mu = Mutex.new
 last_ts    = Time.now
 
@@ -34,7 +34,7 @@ Thread.new do
     sleep 5
     idle = last_ts_mu.synchronize { Time.now - last_ts }
     if idle > 30
-      $stderr.puts '[test-child] watchdog timeout — exiting'
+      $stderr.puts '[test-child] watchdog timeout - exiting'
       exit 1
     end
   end
@@ -126,4 +126,4 @@ $stdin.each_line do |raw|
   end
 end
 
-$stderr.puts '[test-child] stdin EOF — exiting'
+$stderr.puts '[test-child] stdin EOF - exiting'

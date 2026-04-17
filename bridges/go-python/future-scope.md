@@ -1,4 +1,4 @@
-# Future Scope — Go → Python Bridge
+# Future Scope - Go → Python Bridge
 
 Ideas and roadmap items for the Stitch Go → Python transport.
 
@@ -68,9 +68,9 @@ across them:
 
 ```
 Pool
- ├── worker[0] — Bridge instance
- ├── worker[1] — Bridge instance
- └── worker[N] — Bridge instance
+ ├── worker[0] - Bridge instance
+ ├── worker[1] - Bridge instance
+ └── worker[N] - Bridge instance
 ```
 
 The pool's `Call` method picks the next worker using an atomic counter

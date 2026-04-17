@@ -1,9 +1,9 @@
-//! Stitch — Rust client template for a Ruby sidecar.
+//! Stitch - Rust client template for a Ruby sidecar.
 //!
 //! Replace every `[CLAUDE_*]` placeholder before use:
-//!   [CLAUDE_SIDECAR_PATH]  — absolute or relative path to the .rb sidecar
-//!   [CLAUDE_METHOD]        — JSON-RPC method name for the demo call
-//!   [CLAUDE_PARAMS]        — serde_json::Value for the demo call's params
+//!   [CLAUDE_SIDECAR_PATH]  - absolute or relative path to the .rb sidecar
+//!   [CLAUDE_METHOD]        - JSON-RPC method name for the demo call
+//!   [CLAUDE_PARAMS]        - serde_json::Value for the demo call's params
 //!
 //! Protocol (newline-delimited JSON over stdio):
 //!   - Child writes `{"ready":true}` as its very first line.

@@ -1,5 +1,5 @@
 """
-Stitch Python→Ruby bridge — pytest / unittest test suite.
+Stitch Python→Ruby bridge - pytest / unittest test suite.
 
 Run with:
     pytest tests/python-ruby_test.py -v
@@ -363,7 +363,7 @@ class TestLifecycle(unittest.TestCase):
             # Give it a moment to die.
             gone = proc.wait(timeout=2)
         except (psutil.NoSuchProcess, ImportError):
-            pass  # already gone or psutil not installed — either is fine
+            pass  # already gone or psutil not installed - either is fine
 
     def test_close_idempotent(self) -> None:
         bridge = RubyBridge(CHILD)

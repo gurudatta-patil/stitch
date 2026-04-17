@@ -85,7 +85,7 @@ fn dispatch(id: &Value, method: &str, params: &Value) -> Value {
 }
 
 // ---------------------------------------------------------------------------
-// echo — return the "text" param unchanged
+// echo - return the "text" param unchanged
 // ---------------------------------------------------------------------------
 
 fn handle_echo(id: &Value, params: &Value) -> Value {
@@ -97,7 +97,7 @@ fn handle_echo(id: &Value, params: &Value) -> Value {
 }
 
 // ---------------------------------------------------------------------------
-// add — sum two numbers (accepts integer or floating-point JSON numbers)
+// add - sum two numbers (accepts integer or floating-point JSON numbers)
 // ---------------------------------------------------------------------------
 
 fn try_add(params: &Value) -> Result<Value, Box<dyn std::error::Error>> {
@@ -123,7 +123,7 @@ fn handle_add(id: &Value, params: &Value) -> Value {
 }
 
 // ---------------------------------------------------------------------------
-// raise_error — always returns a JSON-RPC error (tests error bubbling)
+// raise_error - always returns a JSON-RPC error (tests error bubbling)
 // ---------------------------------------------------------------------------
 
 fn handle_raise_error(id: &Value, params: &Value) -> Value {
@@ -141,7 +141,7 @@ fn handle_raise_error(id: &Value, params: &Value) -> Value {
 }
 
 // ---------------------------------------------------------------------------
-// echo_b64 — base64-encode the "text" param and return it
+// echo_b64 - base64-encode the "text" param and return it
 // ---------------------------------------------------------------------------
 
 fn handle_echo_b64(id: &Value, params: &Value) -> Value {
@@ -154,7 +154,7 @@ fn handle_echo_b64(id: &Value, params: &Value) -> Value {
 }
 
 // ---------------------------------------------------------------------------
-// slow — sleep for "ms" milliseconds, then echo "done"
+// slow - sleep for "ms" milliseconds, then echo "done"
 // ---------------------------------------------------------------------------
 
 fn try_slow(params: &Value) -> Result<Value, Box<dyn std::error::Error>> {

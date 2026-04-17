@@ -20,7 +20,7 @@ correct linker is installed.
 
 ---
 
-## 2. Rust `panic!` vs `Err` — reader hang risk
+## 2. Rust `panic!` vs `Err` - reader hang risk
 
 `panic!` terminates the process without writing any JSON to stdout.  
 The Python reader thread will block on `event.wait(timeout=...)` until the
@@ -32,7 +32,7 @@ call timeout expires, then raise `TimeoutError` rather than a clean
 `unwrap()`, or `expect()` on paths reachable from a request handler.
 
 ```rust
-// BAD — Python caller hangs until timeout
+// BAD - Python caller hangs until timeout
 fn handle_add(out: &mut impl Write, req: &Request) -> io::Result<()> {
     let a = req.params["a"].as_i64().unwrap();  // panics if missing
     ...
@@ -62,7 +62,7 @@ already do this.
 ```rust
 // BAD
 writeln!(out, "{}", response_json)?;
-// flush missing — Python hangs
+// flush missing - Python hangs
 
 // GOOD
 writeln!(out, "{}", response_json)?;
@@ -71,13 +71,13 @@ out.flush()?;
 
 ---
 
-## 4. Python `bytes` vs `str` — subprocess pipe decoding
+## 4. Python `bytes` vs `str` - subprocess pipe decoding
 
 `subprocess.PIPE` returns `bytes` on all platforms.  The reader thread must
 explicitly decode before calling `json.loads`.
 
 ```python
-# BAD — json.loads(bytes) works in Python 3.6+ but is slower and
+# BAD - json.loads(bytes) works in Python 3.6+ but is slower and
 #        can mask encoding issues
 json.loads(raw_line)
 
@@ -99,7 +99,7 @@ Rust `i64` has a range of `−2⁶³` to `2⁶³−1`.  Python integers are unbo
 
 **Truncation risk:** If Python sends a number outside the `i64` range,
 `serde_json` will fail to deserialize it (returns `None` from `as_i64()`),
-causing an application-level error — which is safe.  The dangerous case is
+causing an application-level error - which is safe.  The dangerous case is
 silent truncation, which does **not** occur with `serde_json`; you will get
 an error instead.
 
@@ -150,19 +150,19 @@ discarded by the reader thread (the pending entry has already been removed).
 
 This is safe.  However, if you close the bridge while many slow calls are in
 flight, some Rust threads may attempt to write to a closed pipe, producing
-`BrokenPipe` errors in `eprintln!` — which is benign.
+`BrokenPipe` errors in `eprintln!` - which is benign.
 
 ---
 
 ## 9. Signal Handling Race on macOS/Linux
 
 The `ctrlc` crate intercepts `SIGTERM` and `SIGINT`.  On process exit
-(stdin EOF), the child exits via normal loop termination — no signal is
+(stdin EOF), the child exits via normal loop termination - no signal is
 needed.  The Python bridge sends EOF by closing `proc.stdin`, then waits
 2 s before escalating to `SIGKILL`.
 
 Do **not** call `std::process::exit(0)` inside a signal handler that holds
-a `MutexGuard` — this will deadlock.  Use an `AtomicBool` shutdown flag and
+a `MutexGuard` - this will deadlock.  Use an `AtomicBool` shutdown flag and
 break out of the main loop cleanly.
 
 ---
