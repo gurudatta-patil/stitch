@@ -37,7 +37,7 @@ Stitch ships as a Claude Code MCP server with two tools:
 **Claude Code is the code generator.** The MCP handles only the deterministic scaffolding work — no subprocess is spawned, no second LLM call is made.
 
 ### 1. Register once
-
+## MCP
 ```bash
 claude mcp add stitch -- npx tsx /path/to/stitch/mcp-server/src/index.ts
 ```
@@ -48,6 +48,17 @@ Verify:
 claude mcp list
 ```
 
+## Also add Slash command for ease of access
+
+If you prefer not to use the MCP, a slash command is also available. Copy `.claude/commands/` from this repo into your project:
+
+```bash
+cp -r /path/to/stitch/.claude ./
+```
+
+
+
+
 ### 2. Open Claude Code in your project
 
 ```bash
@@ -56,6 +67,8 @@ claude
 ```
 
 ### 3. Describe what you need
+
+
 
 ```
 Create a Stitch for me:
@@ -71,6 +84,11 @@ Create a Stitch for me:
     - return { image_b64 }
 
 Call get_stitch_templates, fill in the slots, then call setup_stitch.
+```
+OR
+
+```
+/stitch typescript python image_processor 'resize images using Pillow' 'Pillow'
 ```
 
 Claude Code will call `get_stitch_templates`, fill in the implementation in its own context, then call `setup_stitch` to scaffold everything.
@@ -143,16 +161,3 @@ Each bridge is scoped to exactly the functions you asked for. You're not embeddi
 
 ---
 
-## Slash command (alternative)
-
-If you prefer not to use the MCP, a slash command is also available. Copy `.claude/commands/` from this repo into your project:
-
-```bash
-cp -r /path/to/stitch/.claude ./
-```
-
-Then in Claude Code:
-
-```
-/stitch typescript python image_processor 'resize images using Pillow' 'Pillow'
-```
