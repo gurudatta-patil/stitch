@@ -12,7 +12,7 @@
 // Usage: copy this file into your project or import github.com/stitch/go-rust.
 // Replace the NewRustBridge / Call invocations in your application code with
 // your own method names and parameter shapes.
-package gobridge
+package main
 
 import (
 	"bufio"

@@ -8,8 +8,8 @@ Show a summary of the current Stitch setup in this project.
    - Target language (inferred from file extension)
    - File size
 
-3. Check `.stitch/.venv/` - if present, show Python version inside it:
-   `.stitch/.venv/bin/python --version`
+3. Check `.stitch/bridges/.venv/` - if present, show Python version inside it:
+   `.stitch/bridges/.venv/bin/python --version`
 
 4. Show which bridge pairs are available in this repo's `bridges/` directory
    (read the directory listing of `bridges/`).

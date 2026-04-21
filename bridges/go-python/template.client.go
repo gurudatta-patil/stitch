@@ -45,11 +45,8 @@ const (
 
 // Bridge manages a single Python sidecar child process.
 type Bridge struct {
-	cmd    *exec.Cmd
-	stdin  io.WriteCloser
-	stdout *stitch.PendingMap
-
-	scanner   *stitch.PendingMap // kept for type parity; actual scanner is local
+	cmd       *exec.Cmd
+	stdin     io.WriteCloser
 	pending   *stitch.PendingMap
 	closeOnce sync.Once
 	done      chan struct{}

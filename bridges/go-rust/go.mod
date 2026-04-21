@@ -1,4 +1,4 @@
-module github.com/stitch/go-rust
+module github.com/stitch/bridges/go-rust
 
 go 1.21
 

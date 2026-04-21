@@ -79,5 +79,5 @@ You are the Stitch generator. The user wants to create an IPC bridge between two
 
 ## Inject `.stitch/` into .gitignore
 
-Check if `.stitch/.venv` is already in `.gitignore`. If not, append it.
+Check if `.stitch/bridges/.venv` is already in `.gitignore`. If not, append it.
 The generated `.py` and `.ts` bridge files should NOT be ignored - they're reviewable source.

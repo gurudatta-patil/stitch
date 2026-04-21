@@ -1,4 +1,4 @@
-package goruby
+package main
 
 import (
 	"encoding/json"

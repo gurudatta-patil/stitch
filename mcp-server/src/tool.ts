@@ -105,6 +105,22 @@ export async function handleSetupStitch(
   const clientPath = path.join(bridgesDir, `${bridge_name}${clientExt}`);
   writeFileSync(clientPath, def.patchClient(client_code, bridge_name) + "\n", "utf8");
 
+  // Write auxiliary client files (e.g. Cargo.toml for Rust clients).
+  if (def.clientAuxTemplates) {
+    for (const [templateRel, outputRel] of def.clientAuxTemplates) {
+      const auxSrc = readFileSync(
+        path.join(repoRoot, "bridges", languagePair, templateRel),
+        "utf8",
+      );
+      const patched = def.patchClientAux
+        ? def.patchClientAux(path.basename(outputRel), auxSrc, bridge_name)
+        : auxSrc;
+      const destPath = path.join(bridgesDir, outputRel);
+      mkdirSync(path.dirname(destPath), { recursive: true });
+      writeFileSync(destPath, patched + "\n", "utf8");
+    }
+  }
+
   // For compiled sidecars (Go, Rust) the sidecar files go in their own subdir.
   let sidecarPath: string;
   if (def.sidecarLang === "go" || def.sidecarLang === "rust") {

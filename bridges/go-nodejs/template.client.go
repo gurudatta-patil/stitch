@@ -2,7 +2,7 @@
 // with it over newline-delimited JSON-RPC via stdin/stdout.
 //
 // Usage: replace the constants / Call invocations below with your own methods.
-package gobridge
+package main
 
 import (
 	"encoding/json"

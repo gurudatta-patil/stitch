@@ -1,5 +1,5 @@
 /**
- * language-pair.ts - per-pair configuration for all 13 Stitch pairs.
+ * language-pair.ts - per-pair configuration for all 16 Stitch pairs.
  *
  * Each PairDef describes:
  *   - which template files to read for the client and sidecar
@@ -96,6 +96,12 @@ export interface PairDef {
    * The output is relative to the per-bridge sidecar directory in .stitch.
    */
   sidecarAuxTemplates?: [string, string][];
+  /**
+   * Auxiliary client files (Cargo.toml) to read and write alongside the
+   * primary client template. Each entry: [templateRelPath, outputRelPath].
+   * The output is relative to bridgesDir in .stitch.
+   */
+  clientAuxTemplates?: [string, string][];
   /** Slot marker documentation shown to Claude. */
   clientSlots: string;
   sidecarSlots: string;
@@ -105,6 +111,8 @@ export interface PairDef {
   patchSidecar(code: string, bridgeName: string): string;
   /** Patch auxiliary sidecar file content before writing. */
   patchAux?(filename: string, code: string, bridgeName: string): string;
+  /** Patch auxiliary client file content before writing. */
+  patchClientAux?(filename: string, code: string, bridgeName: string): string;
   /**
    * Copy shared helpers and set up the sidecar runtime.
    * Returns a human-readable summary of what was set up.
@@ -156,8 +164,16 @@ function setupPythonClient(repoRoot: string, sharedDir: string): void {
   );
 }
 
-/** Rust bridge_client is inlined as a mod in src/main.rs - nothing to copy. */
-function setupRustClient(_repoRoot: string, _sharedDir: string): void {}
+/**
+ * Rust bridge needs bridge_client.rs alongside the generated .rs file so that
+ * `mod bridge_client;` resolves at compile time.
+ */
+function setupRustClient(repoRoot: string, _sharedDir: string, bridgesDir: string): void {
+  cp(
+    path.join(repoRoot, "shared", "rust", "bridge_client.rs"),
+    path.join(bridgesDir, "bridge_client.rs"),
+  );
+}
 
 /**
  * Go client needs shared/go/bridge_client.go + a go.mod in the shared dir
@@ -180,7 +196,7 @@ function setupGoClient(repoRoot: string, sharedDir: string, bridgesDir: string):
   if (!existsSync(bridgesGoMod)) {
     write(
       bridgesGoMod,
-      "module github.com/stitch/bridge\n\ngo 1.21\n\nrequire (\n\tgithub.com/google/uuid v1.6.0\n\tgithub.com/stitch/shared/go v0.0.0\n)\n\nreplace github.com/stitch/shared/go => ./shared/go\n",
+      "module github.com/stitch/bridge\n\ngo 1.21\n\nrequire (\n\tgithub.com/google/uuid v1.6.0\n\tgithub.com/stitch/shared/go v0.0.0\n)\n\nreplace github.com/stitch/shared/go => ../shared/go\n",
     );
   }
 }
@@ -265,7 +281,7 @@ async function setupGoSidecar(
   if (existsSync(goModPath)) {
     let goMod = readFileSync(goModPath, "utf8");
     if (!goMod.includes("stitch/shared/go_sidecar")) {
-      goMod = goMod.trimEnd() + "\n\nrequire github.com/stitch/shared/go_sidecar v0.0.0\n\nreplace github.com/stitch/shared/go_sidecar => ../shared/go_sidecar\n";
+      goMod = goMod.trimEnd() + "\n\nrequire github.com/stitch/shared/go_sidecar v0.0.0\n\nreplace github.com/stitch/shared/go_sidecar => ../../shared/go_sidecar\n";
       writeFileSync(goModPath, goMod, "utf8");
     }
   }
@@ -298,7 +314,7 @@ async function setupRustSidecar(
   );
   write(
     path.join(sharedDir, "rust_sidecar", "Cargo.toml"),
-    `[package]\nname = "stitch_sidecar"\nversion = "0.1.0"\nedition = "2021"\n\n[dependencies]\nserde = { version = "1", features = ["derive"] }\nserde_json = "1"\n`,
+    `[package]\nname = "stitch_sidecar"\nversion = "0.1.0"\nedition = "2021"\n\n[dependencies]\nserde = { version = "1", features = ["derive"] }\nserde_json = "1"\nctrlc = { version = "3", features = ["termination"] }\n`,
   );
 
   const bridgeDir = path.join(bridgesDir, bridgeName + "_sidecar");
@@ -306,7 +322,13 @@ async function setupRustSidecar(
   if (existsSync(cargoPath)) {
     let cargo = readFileSync(cargoPath, "utf8");
     if (!cargo.includes("stitch_sidecar")) {
-      cargo = cargo.trimEnd() + "\nstitch_sidecar = { path = \"../shared/rust_sidecar\" }\n";
+      const dep = `stitch_sidecar = { path = "../../shared/rust_sidecar" }\n`;
+      // Insert before [profile.*] section to avoid landing in the wrong table.
+      if (cargo.includes("[profile.")) {
+        cargo = cargo.replace(/(\[profile\.)/, dep + "\n$1");
+      } else {
+        cargo = cargo.trimEnd() + "\n" + dep;
+      }
       writeFileSync(cargoPath, cargo, "utf8");
     }
   }
@@ -322,21 +344,29 @@ async function setupRustSidecar(
 
 // ── Path patching helpers ─────────────────────────────────────────────────────
 
-/** Fix Python sidecar sys.path for shared dir. Handles nested parens via /s flag. */
+/** Fix Python sidecar sys.path for shared dir. Handles both aliased (_sys2/_os) and plain (sys/os) forms. */
 export function patchPythonSidecarPath(code: string): string {
-  return code.replace(
+  // Aliased form (typescript-python template): _sys2.path.insert(0, _os.path.join(...))
+  let out = code.replace(
     /_sys2\.path\.insert\(0,\s*_os\.path\.join\(.*?\)\)/s,
     "_sys2.path.insert(0, _os.path.join(_os.path.dirname(__file__), '..', 'shared'))",
   );
+  // Plain form (go-python, rust-python templates): sys.path.insert(0, os.path.join(...))
+  out = out.replace(
+    /sys\.path\.insert\(0,\s*os\.path\.join\(.*?\)\)/s,
+    "sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'shared'))",
+  );
+  return out;
 }
 
 /** Fix Python client import path for bridge_client. */
 export function patchPythonClientPath(code: string): string {
-  // Insert sys.path adjustment before the first bridge_client import if not already present.
-  if (!code.includes("stitch/shared") && !code.includes("../shared")) return code;
+  // When deployed to .stitch/bridges/<name>.py, the correct path is one level up
+  // from the bridges dir into .stitch/shared. The template uses parent.parent.parent
+  // which would escape beyond the project root.
   return code.replace(
-    /from\s+bridge_client\s+import/,
-    "import sys as _sys_gb; import os as _os_gb\n_sys_gb.path.insert(0, _os_gb.path.join(_os_gb.path.dirname(__file__), '..', 'shared'))\nfrom bridge_client import",
+    /sys\.path\.insert\(0,\s*str\(Path\(__file__\)\.parent\.parent\.parent\s*\/\s*["']shared["']\s*\/\s*["']python["']\)\)/,
+    "sys.path.insert(0, str(Path(__file__).parent.parent / 'shared'))",
   );
 }
 
@@ -476,9 +506,11 @@ function makePairDef(
   sidecarSlots: string,
   opts: {
     sidecarAuxTemplates?: [string, string][];
+    clientAuxTemplates?: [string, string][];
     patchClient?: (code: string, name: string) => string;
     patchSidecar?: (code: string, name: string) => string;
     patchAux?: (filename: string, code: string, name: string) => string;
+    patchClientAux?: (filename: string, code: string, name: string) => string;
   } = {},
 ): PairDef {
   return {
@@ -487,23 +519,25 @@ function makePairDef(
     clientTemplate,
     sidecarTemplate,
     sidecarAuxTemplates: opts.sidecarAuxTemplates,
+    clientAuxTemplates: opts.clientAuxTemplates,
     clientSlots,
     sidecarSlots,
     patchClient: opts.patchClient ?? ((c) => c),
     patchSidecar: opts.patchSidecar ?? ((c) => c),
     patchAux: opts.patchAux,
+    patchClientAux: opts.patchClientAux,
     async setupSidecar(repoRoot, projectRoot, bridgesDir, bridgeName, deps) {
       const sharedDir = path.join(projectRoot, ".stitch", "shared");
       mkdirSync(sharedDir, { recursive: true });
       return SIDECAR_SETUP[sidecarLang](repoRoot, sharedDir, bridgesDir, bridgeName, deps);
     },
-    setupClient(repoRoot, projectRoot, _bridgesDir) {
+    setupClient(repoRoot, projectRoot, bridgesDir) {
       const sharedDir = path.join(projectRoot, ".stitch", "shared");
       mkdirSync(sharedDir, { recursive: true });
       if (clientLang === "typescript") setupTypeScriptClient(repoRoot, sharedDir);
       else if (clientLang === "python") setupPythonClient(repoRoot, sharedDir);
-      else if (clientLang === "rust") setupRustClient(repoRoot, sharedDir);
-      else if (clientLang === "go") setupGoClient(repoRoot, sharedDir, _bridgesDir);
+      else if (clientLang === "rust") setupRustClient(repoRoot, sharedDir, bridgesDir);
+      else if (clientLang === "go") setupGoClient(repoRoot, sharedDir, bridgesDir);
     },
   };
 }
@@ -515,14 +549,17 @@ function patchRustCargoName(code: string, bridgeName: string): string {
   return code
     .replace(/name\s*=\s*"bridge_name"/g, `name = "${bridgeName}"`)
     .replace(/name\s*=\s*"template-sidecar"/g, `name = "${bridgeName}"`)
+    .replace(/name\s*=\s*"rust-sidecar"/g, `name = "${bridgeName}"`)
     .replace(/name\s*=\s*"go-bridge-client"/g, `name = "${bridgeName}-client"`)
     .replace(/name\s*=\s*"python-bridge-client"/g, `name = "${bridgeName}-client"`)
     .replace(/name\s*=\s*"ruby-bridge-client"/g, `name = "${bridgeName}-client"`)
+    .replace(/name\s*=\s*"nodejs-bridge-client"/g, `name = "${bridgeName}-client"`)
     .replace(/\[\[bin\]\]\nname\s*=\s*"bridge_name"/g, `[[bin]]\nname = "${bridgeName}"`)
-    .replace(/\[\[bin\]\]\nname\s*=\s*"template-sidecar"/g, `[[bin]]\nname = "${bridgeName}"`);
+    .replace(/\[\[bin\]\]\nname\s*=\s*"template-sidecar"/g, `[[bin]]\nname = "${bridgeName}"`)
+    .replace(/\[\[bin\]\]\nname\s*=\s*"rust-sidecar"/g, `[[bin]]\nname = "${bridgeName}"`);
 }
 
-// ── The 13 pair definitions ───────────────────────────────────────────────────
+// ── The 16 pair definitions ───────────────────────────────────────────────────
 
 export const PAIRS: Record<LanguagePairName, PairDef> = {
   "typescript-python": makePairDef(
@@ -639,6 +676,13 @@ export const PAIRS: Record<LanguagePairName, PairDef> = {
       sidecarAuxTemplates: [
         ["template.sidecar/go.mod", "go.mod"],
       ],
+      clientAuxTemplates: [
+        ["template.client/Cargo.toml", "Cargo.toml"],
+      ],
+      patchClientAux: (filename, code, name) =>
+        filename === "Cargo.toml"
+          ? patchRustCargoName(code, name).replace(/path\s*=\s*"src\/main\.rs"/, `path = "${name}.rs"`)
+          : code,
     },
   ),
 
@@ -648,6 +692,13 @@ export const PAIRS: Record<LanguagePairName, PairDef> = {
     RUST_CLIENT_SLOTS, PY_SIDECAR_SLOTS,
     {
       patchSidecar: patchPythonSidecarPath,
+      clientAuxTemplates: [
+        ["template.client/Cargo.toml", "Cargo.toml"],
+      ],
+      patchClientAux: (filename, code, name) =>
+        filename === "Cargo.toml"
+          ? patchRustCargoName(code, name).replace(/path\s*=\s*"src\/main\.rs"/, `path = "${name}.rs"`)
+          : code,
     },
   ),
 
@@ -657,6 +708,13 @@ export const PAIRS: Record<LanguagePairName, PairDef> = {
     RUST_CLIENT_SLOTS, RUBY_SIDECAR_SLOTS,
     {
       patchSidecar: patchRubySidecarPath,
+      clientAuxTemplates: [
+        ["template.client/Cargo.toml", "Cargo.toml"],
+      ],
+      patchClientAux: (filename, code, name) =>
+        filename === "Cargo.toml"
+          ? patchRustCargoName(code, name).replace(/path\s*=\s*"src\/main\.rs"/, `path = "${name}.rs"`)
+          : code,
     },
   ),
 
@@ -686,6 +744,15 @@ export const PAIRS: Record<LanguagePairName, PairDef> = {
     "rust", "nodejs",
     "template.client/src/main.rs", "template.sidecar.js",
     RUST_CLIENT_SLOTS, JS_SIDECAR_SLOTS,
+    {
+      clientAuxTemplates: [
+        ["template.client/Cargo.toml", "Cargo.toml"],
+      ],
+      patchClientAux: (filename, code, name) =>
+        filename === "Cargo.toml"
+          ? patchRustCargoName(code, name).replace(/path\s*=\s*"src\/main\.rs"/, `path = "${name}.rs"`)
+          : code,
+    },
   ),
 };
 
